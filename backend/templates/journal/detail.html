@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ entry.title|default:"Journal Entry" }} — InnerLight{% endblock %}
+
+{% block content %}
+<div class="journal-detail-container">
+    <div class="entry-header">
+        <h1>{{ entry.title|default:"Untitled Entry" }}</h1>
+        <span class="entry-date">{{ entry.created_at|date:"F d, Y — g:i A" }}</span>
+    </div>
+
+    {% if entry.mood_score %}
+    <div class="entry-mood">
+        <span>Mood: {{ entry.mood_score }}/5</span>
+    </div>
+    {% endif %}
+
+    {% if entry.is_guided and entry.prompt_used %}
+    <div class="prompt-card">
+        <p>✨ Prompt: {{ entry.prompt_used }}</p>
+    </div>
+    {% endif %}
+
+    <div class="entry-content">
+        {{ entry.content|linebreaks }}
+    </div>
+
+    {% if entry.image %}
+    <div class="entry-image">
+        <img src="{{ entry.image.url }}" alt="Journal image">
+    </div>
+    {% endif %}
+
+    {% if entry.tags %}
+    <div class="tag-list">
+        {% for tag in entry.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="entry-actions">
+        <a href="{% url 'journal_edit' entry.pk %}" class="btn-primary">✏️ Edit</a>
+        <a href="{% url 'journal_delete' entry.pk %}" class="btn-danger">🗑️ Delete</a>
+        <a href="{% url 'journal_list' %}" class="btn-secondary">← Back</a>
+    </div>
+</div>
+{% endblock %}

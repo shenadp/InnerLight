@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Register — InnerLight{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <div class="auth-header">
+            <h1>🌟 Join InnerLight</h1>
+            <p>Start your wellness journey</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small>{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <span class="error">{{ field.errors }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn-primary">Create Account</button>
+        </form>
+
+        <p class="auth-link">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</div>
+{% endblock %}

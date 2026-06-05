@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Share Achievement — InnerLight{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>🎉 Share Achievement</h1>
+
+    <div class="achievement-preview">
+        <span>{{ ua.achievement.icon }}</span>
+        <h2>{{ ua.achievement.name }}</h2>
+        <p>{{ ua.achievement.description }}</p>
+        <small>Unlocked {{ ua.unlocked_at|date:"M d, Y" }}</small>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-primary">Save</button>
+        <a href="{% url 'achievements' %}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Mood Check-In — InnerLight{% endblock %}
+
+{% block content %}
+<div class="checkin-container">
+    <h1>😊 How are you feeling?</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- MOOD SCORE -->
+        <div class="form-group mood-scale">
+            <label>{{ form.mood_score.label }}</label>
+            <div class="emoji-scale">
+                <span data-value="1">😞 Awful</span>
+                <span data-value="2">😕 Bad</span>
+                <span data-value="3">😐 Okay</span>
+                <span data-value="4">🙂 Good</span>
+                <span data-value="5">😄 Amazing</span>
+            </div>
+            {{ form.mood_score }}
+            {% if form.mood_score.errors %}
+            <span class="error">{{ form.mood_score.errors }}</span>
+            {% endif %}
+        </div>
+
+        <!-- ENERGY LEVEL -->
+        <div class="form-group">
+            <label>{{ form.energy_level.label }}</label>
+            <div class="slider-labels">
+                <span>😴 Drained</span>
+                <span>⚡ Energized</span>
+            </div>
+            {{ form.energy_level }}
+            {% if form.energy_level.errors %}
+            <span class="error">{{ form.energy_level.errors }}</span>
+            {% endif %}
+        </div>
+
+        <!-- EMOTION TAG -->
+        <div class="form-group">
+            <label>{{ form.emotion_tag.label }}</label>
+            {{ form.emotion_tag }}
+            {% if form.emotion_tag.errors %}
+            <span class="error">{{ form.emotion_tag.errors }}</span>
+            {% endif %}
+        </div>
+
+        <!-- MOOD NOTE -->
+        <div class="form-group">
+            <label>{{ form.note.label }}</label>
+            {{ form.note }}
+            {% if form.note.errors %}
+            <span class="error">{{ form.note.errors }}</span>
+            {% endif %}
+        </div>
+
+        <button type="submit" class="btn-primary">Log Mood</button>
+        <a href="{% url 'dashboard' %}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

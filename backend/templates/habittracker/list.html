@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Habits — InnerLight{% endblock %}
+
+{% block content %}
+<div class="habits-container">
+    <div class="page-header">
+        <h1>✅ My Habits</h1>
+        <a href="{% url 'habit_create' %}" class="btn-primary">+ Add Habit</a>
+    </div>
+
+    {% if habit_status %}
+    <div class="habit-list">
+        {% for item in habit_status %}
+        <div class="habit-card">
+            <div class="habit-info">
+                <span class="habit-icon">{{ item.habit.icon }}</span>
+                <div>
+                    <h3>{{ item.habit.name }}</h3>
+                    <small>{{ item.habit.get_category_display }} · {{ item.habit.get_frequency_display }}</small>
+                </div>
+            </div>
+            <div class="habit-actions">
+                {% if item.log %}
+                    <span class="completion-badge completion-{{ item.log.completion }}">
+                        {{ item.log.get_completion_display }}
+                    </span>
+                {% else %}
+                    <a href="{% url 'habit_log' item.habit.pk %}" class="btn-primary">Log</a>
+                {% endif %}
+                <a href="{% url 'habit_heatmap' item.habit.pk %}">📅</a>
+                <a href="{% url 'habit_edit' item.habit.pk %}">✏️</a>
+                <a href="{% url 'habit_delete' item.habit.pk %}">🗑️</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>No habits yet!</p>
+        <a href="{% url 'habit_create' %}" class="btn-primary">Create your first habit →</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

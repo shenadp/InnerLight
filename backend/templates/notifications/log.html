@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Notification Log — InnerLight{% endblock %}
+
+{% block content %}
+<div class="log-container">
+    <h1>📋 Notification Log</h1>
+
+    {% if logs %}
+    <div class="log-list">
+        {% for log in logs %}
+        <div class="log-card {% if not log.is_read %}unread{% endif %}">
+            <div class="log-header">
+                <span class="notif-type">{{ log.notif_type }}</span>
+                <small>{{ log.sent_at|date:"M d, Y — g:i A" }}</small>
+            </div>
+            <p>{{ log.message }}</p>
+            {% if not log.is_read %}
+            <span class="unread-badge">New</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No notifications yet.</p>
+    {% endif %}
+
+    <a href="{% url 'notification_settings' %}" class="btn-secondary">← Back</a>
+</div>
+{% endblock %}

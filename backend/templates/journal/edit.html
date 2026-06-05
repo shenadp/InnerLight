@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Entry — InnerLight{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>✏️ Edit Entry</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <span class="error">{{ field.errors }}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-primary">Update Entry</button>
+        <a href="{% url 'journal_detail' entry.pk %}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

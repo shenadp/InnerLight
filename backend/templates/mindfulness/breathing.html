@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Breathing — InnerLight{% endblock %}
+
+{% block content %}
+<div class="breathing-container">
+    <h1>🧘 Breathing Exercise</h1>
+
+    <!-- BREATHING TYPES -->
+    <div class="breathing-types">
+        <div class="breathing-type-card">
+            <h3>Box Breathing</h3>
+            <p>4-4-4-4 · Great for stress relief</p>
+        </div>
+        <div class="breathing-type-card">
+            <h3>4-7-8 Breathing</h3>
+            <p>Inhale 4 · Hold 7 · Exhale 8 · Great for sleep</p>
+        </div>
+        <div class="breathing-type-card">
+            <h3>Custom</h3>
+            <p>Set your own inhale/hold/exhale</p>
+        </div>
+    </div>
+
+    <!-- ANIMATED BREATHING GUIDE -->
+    <div class="breathing-animation">
+        <div class="breathing-circle" id="breathingCircle">
+            <span id="breathingText">Inhale</span>
+        </div>
+        <div class="breathing-controls">
+            <button class="btn-primary" id="startBreathing">Start</button>
+            <button class="btn-secondary" id="stopBreathing" style="display:none">Stop</button>
+        </div>
+    </div>
+
+    <!-- LOG SESSION FORM -->
+    <div class="log-session">
+        <h2>Log This Session</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <span class="error">{{ field.errors }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn-primary">Save Session</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const circle = document.getElementById('breathingCircle');
+    const text = document.getElementById('breathingText');
+    const startBtn = document.getElementById('startBreathing');
+    const stopBtn = document.getElementById('stopBreathing');
+    let interval = null;
+
+    const phases = [
+        { label: 'Inhale', duration: 4000, scale: 1.5 },
+        { label: 'Hold', duration: 4000, scale: 1.5 },
+        { label: 'Exhale', duration: 4000, scale: 1 },
+        { label: 'Hold', duration: 4000, scale: 1 },
+    ];
+
+    let currentPhase = 0;
+
+    function runPhase() {
+        const phase = phases[currentPhase];
+        text.textContent = phase.label;
+        circle.style.transform = `scale(${phase.scale})`;
+        currentPhase = (currentPhase + 1) % phases.length;
+    }
+
+    startBtn.addEventListener('click', () => {
+        startBtn.style.display = 'none';
+        stopBtn.style.display = 'inline-block';
+        runPhase();
+        interval = setInterval(runPhase, 4000);
+    });
+
+    stopBtn.addEventListener('click', () => {
+        clearInterval(interval);
+        circle.style.transform = 'scale(1)';
+        text.textContent = 'Inhale';
+        currentPhase = 0;
+        startBtn.style.display = 'inline-block';
+        stopBtn.style.display = 'none';
+    });
+</script>
+{% endblock %}

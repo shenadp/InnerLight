@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Weekly Reports — InnerLight{% endblock %}
+
+{% block content %}
+<div class="reports-container">
+    <h1>📋 Weekly Reports</h1>
+
+    {% if reports %}
+    {% for report in reports %}
+    <div class="report-card">
+        <h2>Week of {{ report.week_start|date:"M d" }} — {{ report.week_end|date:"M d, Y" }}</h2>
+        <div class="report-stats">
+            <div class="stat">
+                <span class="stat-value">{{ report.avg_mood_score|floatformat:1 }}</span>
+                <span class="stat-label">Avg Mood</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">{{ report.habit_completion_rate|floatformat:0 }}%</span>
+                <span class="stat-label">Habit Completion</span>
+            </div>
+            <div class="stat">
+                <span class="stat-value">{{ report.best_streak }}</span>
+                <span class="stat-label">Best Streak</span>
+            </div>
+        </div>
+        {% if report.top_habit %}
+        <p>🏅 Top Habit: {{ report.top_habit }}</p>
+        {% endif %}
+        {% if report.reflection_prompt %}
+        <div class="reflection">
+            <p>💭 Reflection:</p>
+            <blockquote>{{ report.reflection_prompt }}</blockquote>
+        </div>
+        {% endif %}
+        <small>Generated {{ report.generated_at|date:"M d, Y" }}</small>
+    </div>
+    {% endfor %}
+    {% else %}
+    <p>No weekly reports yet.</p>
+    {% endif %}
+
+    <a href="{% url 'progress' %}" class="btn-secondary">← Back</a>
+</div>
+{% endblock %}

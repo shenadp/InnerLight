@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}New Journal Entry — InnerLight{% endblock %}
+
+{% block content %}
+<div class="journal-create-container">
+    <h1>📝 New Entry</h1>
+
+    <!-- GUIDED PROMPT -->
+    {% if prompt %}
+    <div class="prompt-card">
+        <p>✨ Today's Prompt:</p>
+        <blockquote>{{ prompt.prompt_text }}</blockquote>
+    </div>
+    {% endif %}
+
+    <!-- PROMPT CATEGORY SELECTOR -->
+    <div class="prompt-categories">
+        <p>Choose a guided prompt:</p>
+        <a href="?category=gratitude" class="tag">🙏 Gratitude</a>
+        <a href="?category=reflection" class="tag">💭 Reflection</a>
+        <a href="?category=growth" class="tag">🌱 Growth</a>
+        <a href="?category=anxiety_release" class="tag">🌬️ Anxiety Release</a>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+            <small>{{ field.help_text }}</small>
+            {% endif %}
+            {% if field.errors %}
+            <span class="error">{{ field.errors }}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-primary">Save Entry</button>
+        <a href="{% url 'journal_list' %}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

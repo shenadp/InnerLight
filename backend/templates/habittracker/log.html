@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Log Habit — InnerLight{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>{{ habit.icon }} {{ habit.name }}</h1>
+    <p>Log your progress for today!</p>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <span class="error">{{ field.errors }}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-primary">Save Log</button>
+        <a href="{% url 'habit_list' %}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

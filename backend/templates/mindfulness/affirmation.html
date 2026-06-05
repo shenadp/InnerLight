@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Affirmations — InnerLight{% endblock %}
+
+{% block content %}
+<div class="affirmation-container">
+    <h1>💜 Affirmations</h1>
+
+    <!-- DAILY AFFIRMATION CARD -->
+    {% if daily %}
+    <div class="daily-affirmation-card">
+        <p class="affirmation-label">✨ Today's Affirmation</p>
+        <blockquote>{{ daily.text }}</blockquote>
+    </div>
+    {% endif %}
+
+    <!-- CUSTOM AFFIRMATION BUILDER -->
+    <div class="affirmation-builder">
+        <h2>➕ Add Your Own</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <span class="error">{{ field.errors }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn-primary">Save Affirmation</button>
+        </form>
+    </div>
+
+    <!-- FAVORITES -->
+    {% if favorites %}
+    <div class="favorites-section">
+        <h2>⭐ Favorites</h2>
+        {% for affirmation in favorites %}
+        <div class="affirmation-card">
+            <p>{{ affirmation.text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- ALL USER AFFIRMATIONS -->
+    {% if user_affirmations %}
+    <div class="user-affirmations">
+        <h2>📋 My Affirmations</h2>
+        {% for affirmation in user_affirmations %}
+        <div class="affirmation-card">
+            <p>{{ affirmation.text }}</p>
+            {% if affirmation.is_favorite %}
+            <span>⭐</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Habit — InnerLight{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>🗑️ Delete Habit</h1>
+    <p>Are you sure you want to delete <strong>{{ habit.name }}</strong>?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn-danger">Yes, Delete</button>
+        <a href="{% url 'habit_list' %}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

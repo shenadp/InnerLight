@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ habit.name }} Heatmap — InnerLight{% endblock %}
+
+{% block content %}
+<div class="heatmap-container">
+    <h1>{{ habit.icon }} {{ habit.name }} — Monthly Heatmap</h1>
+
+    {% if logs %}
+    <div class="heatmap-grid">
+        {% for log in logs %}
+        <div class="heatmap-cell completion-{{ log.completion }}" title="{{ log.date }} — {{ log.get_completion_display }}">
+            <small>{{ log.date|date:"d" }}</small>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- STREAK -->
+    <div class="streak-info">
+        <p>🔥 Keep it up!</p>
+    </div>
+    {% else %}
+    <p>No logs yet for this habit.</p>
+    {% endif %}
+
+    <a href="{% url 'habit_list' %}" class="btn-secondary">← Back</a>
+</div>
+{% endblock %}

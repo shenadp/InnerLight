@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Mood History — InnerLight{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <h1>📋 Mood History</h1>
+
+    {% if entries %}
+    <div class="entry-list">
+        {% for entry in entries %}
+        <div class="entry-card">
+            <div class="entry-header">
+                <span class="mood-label">{{ entry.get_mood_score_display }}</span>
+                <span class="entry-date">{{ entry.created_at|date:"M d, Y — g:i A" }}</span>
+            </div>
+            {% if entry.emotion_tag %}
+            <span class="tag">{{ entry.emotion_tag }}</span>
+            {% endif %}
+            {% if entry.note %}
+            <p class="entry-note">{{ entry.note }}</p>
+            {% endif %}
+            <div class="energy-level">
+                ⚡ Energy: {{ entry.energy_level }}/10
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p>No mood entries yet. <a href="{% url 'mood_checkin' %}">Log your first mood →</a></p>
+    {% endif %}
+
+    <a href="{% url 'mood_insights' %}" class="btn-secondary">View Insights</a>
+</div>
+{% endblock %}

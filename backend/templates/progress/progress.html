@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}Progress — InnerLight{% endblock %}
+
+{% block content %}
+<div class="progress-container">
+    <h1>📊 Progress & Insights</h1>
+
+    <!-- STREAK -->
+    <div class="streak-card">
+        <h2>🔥 Current Streak</h2>
+        {% if streak %}
+        <p class="streak-count">{{ streak.current_streak }} days</p>
+        <p>Longest: {{ streak.longest_streak }} days</p>
+        {% if streak.current_streak >= 7 %}
+        <span class="badge">🏅 7-Day Milestone!</span>
+        {% endif %}
+        {% if streak.current_streak >= 30 %}
+        <span class="badge">🏆 30-Day Milestone!</span>
+        {% endif %}
+        {% if streak.current_streak >= 100 %}
+        <span class="badge">💎 100-Day Milestone!</span>
+        {% endif %}
+        {% else %}
+        <p>Start your streak today!</p>
+        {% endif %}
+    </div>
+
+    <!-- LATEST WEEKLY REPORT -->
+    <div class="report-card">
+        <h2>📋 Latest Weekly Report</h2>
+        {% if latest_report %}
+        <p>Week of {{ latest_report.week_start|date:"M d" }} — {{ latest_report.week_end|date:"M d, Y" }}</p>
+        <p>Average Mood: {{ latest_report.avg_mood_score|floatformat:1 }}/5</p>
+        <p>Habit Completion: {{ latest_report.habit_completion_rate|floatformat:0 }}%</p>
+        <p>Best Streak: {{ latest_report.best_streak }} days</p>
+        <p>Top Habit: {{ latest_report.top_habit }}</p>
+        {% if latest_report.reflection_prompt %}
+        <blockquote>{{ latest_report.reflection_prompt }}</blockquote>
+        {% endif %}
+        {% else %}
+        <p>No weekly report yet.</p>
+        {% endif %}
+        <a href="{% url 'weekly_report' %}" class="btn-secondary">View All Reports</a>
+    </div>
+
+    <!-- ACHIEVEMENTS -->
+    <div class="achievements-card">
+        <h2>🏆 Recent Achievements</h2>
+        {% if achievements %}
+        {% for ua in achievements|slice:":3" %}
+        <div class="achievement-item">
+            <span>{{ ua.achievement.icon }}</span>
+            <div>
+                <p>{{ ua.achievement.name }}</p>
+                <small>{{ ua.unlocked_at|date:"M d, Y" }}</small>
+            </div>
+        </div>
+        {% endfor %}
+        <a href="{% url 'achievements' %}" class="btn-secondary">View All</a>
+        {% else %}
+        <p>No achievements yet. Keep going! 💪</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

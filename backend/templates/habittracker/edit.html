@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Habit — InnerLight{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>✏️ Edit Habit</h1>
+
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+            <span class="error">{{ field.errors }}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-primary">Update Habit</button>
+        <a href="{% url 'habit_list' %}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

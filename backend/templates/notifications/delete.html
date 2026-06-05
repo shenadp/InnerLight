@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Reminder — InnerLight{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h1>🗑️ Delete Reminder</h1>
+    <p>Are you sure you want to delete the <strong>{{ schedule.get_notif_type_display }}</strong> reminder at <strong>{{ schedule.scheduled_time|time:"g:i A" }}</strong>?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn-danger">Yes, Delete</button>
+        <a href="{% url 'notification_settings' %}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

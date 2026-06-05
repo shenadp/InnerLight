@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Achievements — InnerLight{% endblock %}
+
+{% block content %}
+<div class="achievements-container">
+    <h1>🏆 Achievements</h1>
+
+    <div class="achievements-grid">
+        {% for achievement in all_achievements %}
+        <div class="achievement-card {% if achievement.pk in unlocked %}unlocked{% else %}locked{% endif %}">
+            <span class="achievement-icon">{{ achievement.icon }}</span>
+            <h3>{{ achievement.name }}</h3>
+            <p>{{ achievement.description }}</p>
+            {% if achievement.pk in unlocked %}
+            <span class="unlocked-badge">✅ Unlocked!</span>
+            <a href="{% url 'share_achievement' achievement.pk %}" class="btn-secondary">Share</a>
+            {% else %}
+            <span class="locked-badge">🔒 Locked</span>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>No achievements available yet.</p>
+        {% endfor %}
+    </div>
+
+    <a href="{% url 'progress' %}" class="btn-secondary">← Back</a>
+</div>
+{% endblock %}

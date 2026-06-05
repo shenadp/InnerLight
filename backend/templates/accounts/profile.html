@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile — InnerLight{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <h1>⚙️ Your Profile</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="profile-avatar">
+            {% if user.avatar %}
+            <img src="{{ user.avatar.url }}" alt="Avatar">
+            {% else %}
+            <div class="avatar-placeholder">👤</div>
+            {% endif %}
+        </div>
+
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+            <small>{{ field.help_text }}</small>
+            {% endif %}
+            {% if field.errors %}
+            <span class="error">{{ field.errors }}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn-primary">Save Changes</button>
+        <a href="{% url 'dashboard' %}" class="btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}
