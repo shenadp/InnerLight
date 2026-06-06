@@ -2,6 +2,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.decorators import api_view, permission_classes
 from django.contrib.auth import authenticate
 from django.utils import timezone
 from datetime import timedelta
@@ -314,3 +315,13 @@ class NotificationLogListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return NotificationLog.objects.filter(user=self.request.user).order_by('-sent_at')
+    
+from .external import get_daily_affirmation, get_quote_of_day
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def daily_content(request):
+    return Response({
+        'affirmation': get_daily_affirmation(),
+        'quote': get_quote_of_day(),
+    })

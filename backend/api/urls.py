@@ -43,4 +43,7 @@ urlpatterns = [
     path('notifications/<int:pk>/', views.NotificationScheduleDetailAPIView.as_view(), name='api_notif_detail'),
     path('notifications/dnd/', views.DoNotDisturbAPIView.as_view(), name='api_dnd'),
     path('notifications/log/', views.NotificationLogListAPIView.as_view(), name='api_notif_log'),
+
+    # DAILY CONTENT
+    path('daily-content/', views.daily_content, name='daily_content'),
 ]
