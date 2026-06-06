@@ -1,0 +1,29 @@
+
+
+services:
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: innerlight_db
+      POSTGRES_USER: innerlight_user
+      POSTGRES_PASSWORD: innerlight_pass
+
+  web:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    command: >
+      sh -c "cd backend && python manage.py migrate && gunicorn innerlight.wsgi:application --bind 0.0.0.0:8000 --workers 2 --reload"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
