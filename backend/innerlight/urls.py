@@ -35,4 +35,5 @@ urlpatterns = [
     path('mindfulness/', include('mindfulness.urls')),
     path('progress/', include('progress.urls')),
     path('notifications/', include('notifications.urls')),
+    path('api/', include('api.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
