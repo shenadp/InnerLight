@@ -3,31 +3,44 @@
 {% block title %}Register — InnerLight{% endblock %}
 
 {% block content %}
-<div class="auth-container">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h1>🌟 Join InnerLight</h1>
-            <p>Start your wellness journey</p>
+<div class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div style="width: 100%; max-width: 480px;">
+
+        <!-- LOGO -->
+        <div class="text-center mb-4">
+            <div style="font-size: 2.5rem;">🌿</div>
+            <h1 style="font-size: 1.8rem; font-weight: 600; color: var(--il-text);">Join InnerLight</h1>
+            <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Start your wellness journey</p>
         </div>
 
-        <form method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="form-group">
-                <label>{{ field.label }}</label>
-                {{ field }}
-                {% if field.help_text %}
-                <small>{{ field.help_text }}</small>
-                {% endif %}
-                {% if field.errors %}
-                <span class="error">{{ field.errors }}</span>
-                {% endif %}
-            </div>
-            {% endfor %}
-            <button type="submit" class="btn-primary">Create Account</button>
-        </form>
+        <div class="il-card">
+            <h2 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--il-text);">Create your account</h2>
 
-        <p class="auth-link">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                    <div style="font-size: 0.78rem; color: var(--il-text-muted); margin-top: 4px;">{{ field.help_text }}</div>
+                    {% endif %}
+                    {% if field.errors %}
+                    <div style="font-size: 0.8rem; color: var(--il-danger); margin-top: 4px;">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn-il-primary w-100 mt-2" style="padding: 12px;">
+                    Create Account
+                </button>
+            </form>
+
+            <p class="text-center mt-3 mb-0" style="font-size: 0.875rem; color: var(--il-text-muted);">
+                Already have an account? <a href="{% url 'login' %}" style="color: var(--il-primary); font-weight: 500;">Login</a>
+            </p>
+        </div>
+
     </div>
 </div>
 {% endblock %}

@@ -3,33 +3,50 @@
 {% block title %}Mood History — InnerLight{% endblock %}
 
 {% block content %}
-<div class="history-container">
-    <h1>📋 Mood History</h1>
-
-    {% if entries %}
-    <div class="entry-list">
-        {% for entry in entries %}
-        <div class="entry-card">
-            <div class="entry-header">
-                <span class="mood-label">{{ entry.get_mood_score_display }}</span>
-                <span class="entry-date">{{ entry.created_at|date:"M d, Y — g:i A" }}</span>
-            </div>
-            {% if entry.emotion_tag %}
-            <span class="tag">{{ entry.emotion_tag }}</span>
-            {% endif %}
-            {% if entry.note %}
-            <p class="entry-note">{{ entry.note }}</p>
-            {% endif %}
-            <div class="energy-level">
-                ⚡ Energy: {{ entry.energy_level }}/10
-            </div>
-        </div>
-        {% endfor %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 style="font-size: 1.5rem; font-weight: 600;">Mood History</h1>
+        <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300; margin: 0;">Your past check-ins.</p>
     </div>
-    {% else %}
-    <p>No mood entries yet. <a href="{% url 'mood_checkin' %}">Log your first mood →</a></p>
-    {% endif %}
-
-    <a href="{% url 'mood_insights' %}" class="btn-secondary">View Insights</a>
+    <a href="{% url 'mood_checkin' %}" class="btn-il-primary" style="text-decoration: none; padding: 10px 20px; font-size: 0.85rem;">+ Log Mood</a>
 </div>
+
+{% if entries %}
+<div style="display: flex; flex-direction: column; gap: 12px;">
+    {% for entry in entries %}
+    <div class="il-card" style="margin-bottom: 0;">
+        <div class="d-flex justify-content-between align-items-start">
+            <div class="d-flex align-items-center gap-3">
+                <div style="font-size: 2rem;">
+                    {% if entry.mood_score == 1 %}😞
+                    {% elif entry.mood_score == 2 %}😕
+                    {% elif entry.mood_score == 3 %}😐
+                    {% elif entry.mood_score == 4 %}🙂
+                    {% elif entry.mood_score == 5 %}😄
+                    {% endif %}
+                </div>
+                <div>
+                    <p style="font-weight: 500; margin: 0; font-size: 0.95rem;">{{ entry.get_mood_score_display }}</p>
+                    {% if entry.emotion_tag %}
+                    <span class="il-badge" style="font-size: 0.72rem;">{{ entry.emotion_tag }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            <span style="font-size: 0.78rem; color: var(--il-text-muted);">{{ entry.created_at|date:"M d, g:i A" }}</span>
+        </div>
+        {% if entry.note %}
+        <p style="font-size: 0.85rem; color: var(--il-text-muted); margin: 8px 0 0; font-style: italic;">"{{ entry.note }}"</p>
+        {% endif %}
+        <div style="margin-top: 8px; font-size: 0.8rem; color: var(--il-text-muted);">⚡ Energy: {{ entry.energy_level }}/10</div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="il-card text-center" style="padding: 2.5rem;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">😊</div>
+    <p style="font-weight: 500; margin-bottom: 0.5rem;">No mood entries yet.</p>
+    <p style="color: var(--il-text-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">Start tracking how you feel!</p>
+    <a href="{% url 'mood_checkin' %}" class="btn-il-primary" style="text-decoration: none; padding: 10px 24px;">Log your first mood →</a>
+</div>
+{% endif %}
 {% endblock %}

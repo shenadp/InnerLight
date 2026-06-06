@@ -3,26 +3,27 @@
 {% block title %}Share Achievement — InnerLight{% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h1>🎉 Share Achievement</h1>
-
-    <div class="achievement-preview">
-        <span>{{ ua.achievement.icon }}</span>
-        <h2>{{ ua.achievement.name }}</h2>
-        <p>{{ ua.achievement.description }}</p>
-        <small>Unlocked {{ ua.unlocked_at|date:"M d, Y" }}</small>
-    </div>
-
-    <form method="POST">
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="form-group">
-            <label>{{ field.label }}</label>
-            {{ field }}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-6">
+        <div class="il-card text-center" style="padding: 2.5rem;">
+            <div style="font-size: 3rem; margin-bottom: 0.75rem;">{{ ua.achievement.icon }}</div>
+            <h1 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">{{ ua.achievement.name }}</h1>
+            <p style="color: var(--il-text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;">{{ ua.achievement.description }}</p>
+            <p style="font-size: 0.78rem; color: var(--il-text-muted); margin-bottom: 2rem;">Unlocked {{ ua.unlocked_at|date:"M d, Y" }}</p>
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3 d-flex justify-content-center align-items-center gap-3">
+                    <label class="form-label mb-0">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <div class="d-flex gap-3 justify-content-center">
+                    <button type="submit" class="btn-il-primary" style="padding: 10px 28px;">Save</button>
+                    <a href="{% url 'achievements' %}" class="btn-il-secondary" style="padding: 10px 28px; text-decoration: none;">Cancel</a>
+                </div>
+            </form>
         </div>
-        {% endfor %}
-        <button type="submit" class="btn-primary">Save</button>
-        <a href="{% url 'achievements' %}" class="btn-secondary">Cancel</a>
-    </form>
+    </div>
 </div>
 {% endblock %}

@@ -1,73 +1,68 @@
 {% extends 'base.html' %}
 
-{% block title %}Notification Settings — InnerLight{% endblock %}
+{% block title %}Notifications — InnerLight{% endblock %}
 
 {% block content %}
-<div class="notifications-container">
-    <h1>🔔 Notifications & Reminders</h1>
-
-    <!-- REMINDER SCHEDULES -->
-    <div class="schedules-section">
-        <div class="section-header">
-            <h2>⏰ My Reminders</h2>
-            <a href="{% url 'notification_create' %}" class="btn-primary">+ Add Reminder</a>
-        </div>
-
-        {% if schedules %}
-        <div class="schedule-list">
-            {% for schedule in schedules %}
-            <div class="schedule-card">
-                <div class="schedule-info">
-                    <span class="notif-icon">
-                        {% if schedule.notif_type == 'morning_checkin' %}☀️
-                        {% elif schedule.notif_type == 'journal_nudge' %}📓
-                        {% elif schedule.notif_type == 'streak_warning' %}🔥
-                        {% elif schedule.notif_type == 'motivational' %}💪
-                        {% elif schedule.notif_type == 'habit_reminder' %}✅
-                        {% endif %}
-                    </span>
-                    <div>
-                        <p>{{ schedule.get_notif_type_display }}</p>
-                        <small>{{ schedule.scheduled_time|time:"g:i A" }}</small>
-                    </div>
-                </div>
-                <div class="schedule-actions">
-                    {% if schedule.is_active %}
-                    <span class="active-badge">Active</span>
-                    {% else %}
-                    <span class="inactive-badge">Inactive</span>
-                    {% endif %}
-                    <a href="{% url 'notification_delete' schedule.pk %}" class="btn-danger">🗑️</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <p>No reminders set yet.</p>
-        {% endif %}
-    </div>
-
-    <!-- DO NOT DISTURB -->
-    <div class="dnd-section">
-        <h2>🔕 Do Not Disturb</h2>
-        <form method="POST">
-            {% csrf_token %}
-            {% for field in dnd_form %}
-            <div class="form-group">
-                <label>{{ field.label }}</label>
-                {{ field }}
-                {% if field.errors %}
-                <span class="error">{{ field.errors }}</span>
-                {% endif %}
-            </div>
-            {% endfor %}
-            <button type="submit" class="btn-primary">Save DND Settings</button>
-        </form>
-    </div>
-
-    <!-- NOTIFICATION LOG -->
-    <div class="log-link">
-        <a href="{% url 'notification_log' %}" class="btn-secondary">📋 View Notification Log</a>
-    </div>
+<div class="mb-4">
+    <h1 style="font-size: 1.5rem; font-weight: 600;">Notifications</h1>
+    <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Manage your reminders and alerts.</p>
 </div>
+
+<!-- REMINDERS -->
+<div class="il-card mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin: 0;">⏰ My Reminders</p>
+        <a href="{% url 'notification_create' %}" class="btn-il-primary" style="text-decoration: none; padding: 6px 16px; font-size: 0.8rem;">+ Add</a>
+    </div>
+
+    {% if schedules %}
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        {% for schedule in schedules %}
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 14px; background: var(--il-bg-secondary); border-radius: 12px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 1.2rem;">
+                    {% if schedule.notif_type == 'morning_checkin' %}☀️
+                    {% elif schedule.notif_type == 'journal_nudge' %}📓
+                    {% elif schedule.notif_type == 'streak_warning' %}🔥
+                    {% elif schedule.notif_type == 'motivational' %}💪
+                    {% elif schedule.notif_type == 'habit_reminder' %}✅
+                    {% endif %}
+                </span>
+                <div>
+                    <p style="font-size: 0.875rem; font-weight: 500; margin: 0;">{{ schedule.get_notif_type_display }}</p>
+                    <p style="font-size: 0.78rem; color: var(--il-text-muted); margin: 0;">{{ schedule.scheduled_time|time:"g:i A" }}</p>
+                </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                {% if schedule.is_active %}
+                <span class="il-badge" style="font-size: 0.72rem;">Active</span>
+                {% else %}
+                <span style="font-size: 0.72rem; color: var(--il-text-muted);">Inactive</span>
+                {% endif %}
+                <a href="{% url 'notification_delete' schedule.pk %}" style="color: var(--il-danger); font-size: 0.85rem; text-decoration: none;">🗑️</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="color: var(--il-text-muted); font-size: 0.875rem;">No reminders yet.</p>
+    {% endif %}
+</div>
+
+<!-- DND -->
+<div class="il-card mb-3">
+    <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">🔕 Do Not Disturb</p>
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in dnd_form %}
+        <div class="mb-3">
+            <label class="form-label">{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn-il-primary" style="padding: 10px 24px;">Save DND</button>
+    </form>
+</div>
+
+<a href="{% url 'notification_log' %}" class="btn-il-secondary" style="text-decoration: none; padding: 10px 24px;">📋 View Log</a>
 {% endblock %}

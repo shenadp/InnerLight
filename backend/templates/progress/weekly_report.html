@@ -3,43 +3,50 @@
 {% block title %}Weekly Reports — InnerLight{% endblock %}
 
 {% block content %}
-<div class="reports-container">
-    <h1>📋 Weekly Reports</h1>
+<div class="mb-4">
+    <h1 style="font-size: 1.5rem; font-weight: 600;">Weekly Reports</h1>
+    <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Your weekly wellness summary.</p>
+</div>
 
-    {% if reports %}
+{% if reports %}
+<div style="display: flex; flex-direction: column; gap: 12px;">
     {% for report in reports %}
-    <div class="report-card">
-        <h2>Week of {{ report.week_start|date:"M d" }} — {{ report.week_end|date:"M d, Y" }}</h2>
-        <div class="report-stats">
-            <div class="stat">
-                <span class="stat-value">{{ report.avg_mood_score|floatformat:1 }}</span>
-                <span class="stat-label">Avg Mood</span>
+    <div class="il-card" style="margin-bottom: 0;">
+        <p style="font-weight: 600; font-size: 0.95rem; margin-bottom: 0.5rem;">Week of {{ report.week_start|date:"M d" }} — {{ report.week_end|date:"M d, Y" }}</p>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 1rem;">
+            <div style="text-align: center; padding: 10px; background: var(--il-bg-secondary); border-radius: 10px;">
+                <p style="font-size: 1.2rem; font-weight: 600; margin: 0;">{{ report.avg_mood_score|floatformat:1 }}</p>
+                <p style="font-size: 0.7rem; color: var(--il-text-muted); margin: 0;">Avg Mood</p>
             </div>
-            <div class="stat">
-                <span class="stat-value">{{ report.habit_completion_rate|floatformat:0 }}%</span>
-                <span class="stat-label">Habit Completion</span>
+            <div style="text-align: center; padding: 10px; background: var(--il-bg-secondary); border-radius: 10px;">
+                <p style="font-size: 1.2rem; font-weight: 600; margin: 0;">{{ report.habit_completion_rate|floatformat:0 }}%</p>
+                <p style="font-size: 0.7rem; color: var(--il-text-muted); margin: 0;">Habits</p>
             </div>
-            <div class="stat">
-                <span class="stat-value">{{ report.best_streak }}</span>
-                <span class="stat-label">Best Streak</span>
+            <div style="text-align: center; padding: 10px; background: var(--il-bg-secondary); border-radius: 10px;">
+                <p style="font-size: 1.2rem; font-weight: 600; margin: 0;">{{ report.best_streak }}</p>
+                <p style="font-size: 0.7rem; color: var(--il-text-muted); margin: 0;">Streak</p>
             </div>
         </div>
         {% if report.top_habit %}
-        <p>🏅 Top Habit: {{ report.top_habit }}</p>
+        <p style="font-size: 0.85rem; color: var(--il-text-muted); margin-bottom: 0.5rem;">🏅 Top Habit: <strong>{{ report.top_habit }}</strong></p>
         {% endif %}
         {% if report.reflection_prompt %}
-        <div class="reflection">
-            <p>💭 Reflection:</p>
-            <blockquote>{{ report.reflection_prompt }}</blockquote>
+        <div style="padding: 10px 14px; background: var(--il-bg-secondary); border-radius: 10px; border-left: 3px solid var(--il-primary);">
+            <p style="font-size: 0.85rem; font-style: italic; color: var(--il-text-muted); margin: 0;">{{ report.reflection_prompt }}</p>
         </div>
         {% endif %}
-        <small>Generated {{ report.generated_at|date:"M d, Y" }}</small>
     </div>
     {% endfor %}
-    {% else %}
-    <p>No weekly reports yet.</p>
-    {% endif %}
+</div>
+{% else %}
+<div class="il-card text-center" style="padding: 2.5rem;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">📋</div>
+    <p style="font-weight: 500; margin-bottom: 0.5rem;">No reports yet.</p>
+    <p style="color: var(--il-text-muted); font-size: 0.875rem;">Keep using InnerLight and your weekly reports will appear here!</p>
+</div>
+{% endif %}
 
-    <a href="{% url 'progress' %}" class="btn-secondary">← Back</a>
+<div class="mt-3">
+    <a href="{% url 'progress' %}" class="btn-il-secondary" style="text-decoration: none; padding: 10px 24px;">← Back</a>
 </div>
 {% endblock %}

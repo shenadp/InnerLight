@@ -3,27 +3,31 @@
 {% block title %}Achievements — InnerLight{% endblock %}
 
 {% block content %}
-<div class="achievements-container">
-    <h1>🏆 Achievements</h1>
+<div class="mb-4">
+    <h1 style="font-size: 1.5rem; font-weight: 600;">Achievements</h1>
+    <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Milestones on your wellness journey.</p>
+</div>
 
-    <div class="achievements-grid">
-        {% for achievement in all_achievements %}
-        <div class="achievement-card {% if achievement.pk in unlocked %}unlocked{% else %}locked{% endif %}">
-            <span class="achievement-icon">{{ achievement.icon }}</span>
-            <h3>{{ achievement.name }}</h3>
-            <p>{{ achievement.description }}</p>
-            {% if achievement.pk in unlocked %}
-            <span class="unlocked-badge">✅ Unlocked!</span>
-            <a href="{% url 'share_achievement' achievement.pk %}" class="btn-secondary">Share</a>
-            {% else %}
-            <span class="locked-badge">🔒 Locked</span>
-            {% endif %}
-        </div>
-        {% empty %}
-        <p>No achievements available yet.</p>
-        {% endfor %}
+<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+    {% for achievement in all_achievements %}
+    <div class="il-card {% if achievement.pk in unlocked %}{% else %}{% endif %}" style="margin-bottom: 0; text-align: center; opacity: {% if achievement.pk in unlocked %}1{% else %}0.5{% endif %};">
+        <div style="font-size: 2rem; margin-bottom: 0.5rem;">{{ achievement.icon }}</div>
+        <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 4px;">{{ achievement.name }}</p>
+        <p style="font-size: 0.78rem; color: var(--il-text-muted); margin-bottom: 0.75rem;">{{ achievement.description }}</p>
+        {% if achievement.pk in unlocked %}
+        <span class="il-badge" style="font-size: 0.72rem;">✅ Unlocked</span>
+        {% else %}
+        <span style="font-size: 0.78rem; color: var(--il-text-muted);">🔒 Locked</span>
+        {% endif %}
     </div>
+    {% empty %}
+    <div class="col-span-2">
+        <p style="color: var(--il-text-muted); font-size: 0.875rem;">No achievements available yet.</p>
+    </div>
+    {% endfor %}
+</div>
 
-    <a href="{% url 'progress' %}" class="btn-secondary">← Back</a>
+<div class="mt-4">
+    <a href="{% url 'progress' %}" class="btn-il-secondary" style="text-decoration: none; padding: 10px 24px;">← Back</a>
 </div>
 {% endblock %}

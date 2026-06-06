@@ -3,43 +3,48 @@
 {% block title %}Habits — InnerLight{% endblock %}
 
 {% block content %}
-<div class="habits-container">
-    <div class="page-header">
-        <h1>✅ My Habits</h1>
-        <a href="{% url 'habit_create' %}" class="btn-primary">+ Add Habit</a>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 style="font-size: 1.5rem; font-weight: 600;">My Habits</h1>
+        <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300; margin: 0;">Build consistency, one day at a time.</p>
     </div>
+    <a href="{% url 'habit_create' %}" class="btn-il-primary" style="text-decoration: none; padding: 10px 20px; font-size: 0.85rem;">+ Add</a>
+</div>
 
-    {% if habit_status %}
-    <div class="habit-list">
-        {% for item in habit_status %}
-        <div class="habit-card">
-            <div class="habit-info">
-                <span class="habit-icon">{{ item.habit.icon }}</span>
+{% if habit_status %}
+<div style="display: flex; flex-direction: column; gap: 12px;">
+    {% for item in habit_status %}
+    <div class="il-card" style="margin-bottom: 0;">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center gap-3">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--il-bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border: 1.5px solid rgba(151, 169, 124, 0.2);">
+                    {{ item.habit.icon|default:"✅" }}
+                </div>
                 <div>
-                    <h3>{{ item.habit.name }}</h3>
-                    <small>{{ item.habit.get_category_display }} · {{ item.habit.get_frequency_display }}</small>
+                    <p style="font-weight: 500; margin: 0; font-size: 0.95rem;">{{ item.habit.name }}</p>
+                    <span style="font-size: 0.75rem; color: var(--il-text-muted);">{{ item.habit.get_category_display }} · {{ item.habit.get_frequency_display }}</span>
                 </div>
             </div>
-            <div class="habit-actions">
+            <div class="d-flex align-items-center gap-2">
                 {% if item.log %}
-                    <span class="completion-badge completion-{{ item.log.completion }}">
-                        {{ item.log.get_completion_display }}
-                    </span>
+                <span class="il-badge">{{ item.log.get_completion_display }}</span>
                 {% else %}
-                    <a href="{% url 'habit_log' item.habit.pk %}" class="btn-primary">Log</a>
+                <a href="{% url 'habit_log' item.habit.pk %}" class="btn-il-primary" style="text-decoration: none; padding: 6px 16px; font-size: 0.8rem;">Log</a>
                 {% endif %}
-                <a href="{% url 'habit_heatmap' item.habit.pk %}">📅</a>
-                <a href="{% url 'habit_edit' item.habit.pk %}">✏️</a>
-                <a href="{% url 'habit_delete' item.habit.pk %}">🗑️</a>
+                <a href="{% url 'habit_heatmap' item.habit.pk %}" style="color: var(--il-text-muted); font-size: 1rem; text-decoration: none;">📅</a>
+                <a href="{% url 'habit_edit' item.habit.pk %}" style="color: var(--il-text-muted); font-size: 1rem; text-decoration: none;">✏️</a>
+                <a href="{% url 'habit_delete' item.habit.pk %}" style="color: var(--il-danger); font-size: 1rem; text-decoration: none;">🗑️</a>
             </div>
         </div>
-        {% endfor %}
     </div>
-    {% else %}
-    <div class="empty-state">
-        <p>No habits yet!</p>
-        <a href="{% url 'habit_create' %}" class="btn-primary">Create your first habit →</a>
-    </div>
-    {% endif %}
+    {% endfor %}
 </div>
+{% else %}
+<div class="il-card text-center" style="padding: 2.5rem;">
+    <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
+    <p style="font-weight: 500; margin-bottom: 0.5rem;">No habits yet.</p>
+    <p style="color: var(--il-text-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">Start building your daily routine!</p>
+    <a href="{% url 'habit_create' %}" class="btn-il-primary" style="text-decoration: none; padding: 10px 24px;">Create your first habit →</a>
+</div>
+{% endif %}
 {% endblock %}

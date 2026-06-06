@@ -3,61 +3,86 @@
 {% block title %}Mood Check-In — InnerLight{% endblock %}
 
 {% block content %}
-<div class="checkin-container">
-    <h1>😊 How are you feeling?</h1>
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
 
-    <form method="POST">
-        {% csrf_token %}
+        <div class="mb-4">
+            <h1 style="font-size: 1.5rem; font-weight: 600;">How are you feeling?</h1>
+            <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Take a moment to check in with yourself.</p>
+        </div>
 
-        <!-- MOOD SCORE -->
-        <div class="form-group mood-scale">
-            <label>{{ form.mood_score.label }}</label>
-            <div class="emoji-scale">
-                <span data-value="1">😞 Awful</span>
-                <span data-value="2">😕 Bad</span>
-                <span data-value="3">😐 Okay</span>
-                <span data-value="4">🙂 Good</span>
-                <span data-value="5">😄 Amazing</span>
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- MOOD SCALE -->
+            <div class="il-card mb-3">
+                <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">Mood</p>
+                <div class="mood-emoji-row">
+                    <button type="button" class="mood-emoji-btn" data-value="1" onclick="selectMood(1)">
+                        <div style="font-size: 1.8rem;">😞</div>
+                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Awful</div>
+                    </button>
+                    <button type="button" class="mood-emoji-btn" data-value="2" onclick="selectMood(2)">
+                        <div style="font-size: 1.8rem;">😕</div>
+                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Bad</div>
+                    </button>
+                    <button type="button" class="mood-emoji-btn" data-value="3" onclick="selectMood(3)">
+                        <div style="font-size: 1.8rem;">😐</div>
+                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Okay</div>
+                    </button>
+                    <button type="button" class="mood-emoji-btn" data-value="4" onclick="selectMood(4)">
+                        <div style="font-size: 1.8rem;">🙂</div>
+                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Good</div>
+                    </button>
+                    <button type="button" class="mood-emoji-btn" data-value="5" onclick="selectMood(5)">
+                        <div style="font-size: 1.8rem;">😄</div>
+                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Amazing</div>
+                    </button>
+                </div>
+                <div style="display: none;">{{ form.mood_score }}</div>
             </div>
-            {{ form.mood_score }}
-            {% if form.mood_score.errors %}
-            <span class="error">{{ form.mood_score.errors }}</span>
-            {% endif %}
-        </div>
 
-        <!-- ENERGY LEVEL -->
-        <div class="form-group">
-            <label>{{ form.energy_level.label }}</label>
-            <div class="slider-labels">
-                <span>😴 Drained</span>
-                <span>⚡ Energized</span>
+            <!-- ENERGY LEVEL -->
+            <div class="il-card mb-3">
+                <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.75rem;">Energy Level</p>
+                <div class="d-flex justify-content-between mb-2">
+                    <span style="font-size: 0.8rem; color: var(--il-text-muted);">😴 Drained</span>
+                    <span style="font-size: 0.8rem; color: var(--il-text-muted);">⚡ Energized</span>
+                </div>
+                {{ form.energy_level }}
+                {% if form.energy_level.errors %}
+                <div style="font-size: 0.8rem; color: var(--il-danger);">{{ form.energy_level.errors }}</div>
+                {% endif %}
             </div>
-            {{ form.energy_level }}
-            {% if form.energy_level.errors %}
-            <span class="error">{{ form.energy_level.errors }}</span>
-            {% endif %}
-        </div>
 
-        <!-- EMOTION TAG -->
-        <div class="form-group">
-            <label>{{ form.emotion_tag.label }}</label>
-            {{ form.emotion_tag }}
-            {% if form.emotion_tag.errors %}
-            <span class="error">{{ form.emotion_tag.errors }}</span>
-            {% endif %}
-        </div>
+            <!-- EMOTION TAG -->
+            <div class="il-card mb-3">
+                <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.75rem;">Emotion</p>
+                {{ form.emotion_tag }}
+            </div>
 
-        <!-- MOOD NOTE -->
-        <div class="form-group">
-            <label>{{ form.note.label }}</label>
-            {{ form.note }}
-            {% if form.note.errors %}
-            <span class="error">{{ form.note.errors }}</span>
-            {% endif %}
-        </div>
+            <!-- NOTE -->
+            <div class="il-card mb-4">
+                <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.75rem;">Quick Note <span style="font-weight: 300;">(optional)</span></p>
+                {{ form.note }}
+            </div>
 
-        <button type="submit" class="btn-primary">Log Mood</button>
-        <a href="{% url 'dashboard' %}" class="btn-secondary">Cancel</a>
-    </form>
+            <div class="d-flex gap-3">
+                <button type="submit" class="btn-il-primary" style="padding: 12px 32px;">Log Mood</button>
+                <a href="{% url 'dashboard' %}" class="btn-il-secondary" style="padding: 12px 32px; text-decoration: none;">Cancel</a>
+            </div>
+        </form>
+    </div>
 </div>
+
+<script>
+function selectMood(value) {
+    document.querySelectorAll('.mood-emoji-btn').forEach(btn => btn.classList.remove('selected'));
+    document.querySelector(`.mood-emoji-btn[data-value="${value}"]`).classList.add('selected');
+    const select = document.querySelector('#id_mood_score');
+    if (select) select.value = value;
+    const radio = document.querySelector(`input[name="mood_score"][value="${value}"]`);
+    if (radio) radio.checked = true;
+}
+</script>
 {% endblock %}

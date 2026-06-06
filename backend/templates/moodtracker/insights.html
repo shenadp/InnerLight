@@ -3,68 +3,70 @@
 {% block title %}Mood Insights — InnerLight{% endblock %}
 
 {% block content %}
-<div class="insights-container">
-    <h1>📈 Mood Insights</h1>
+<div class="mb-4">
+    <h1 style="font-size: 1.5rem; font-weight: 600;">Mood Insights</h1>
+    <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Track your emotional patterns over time.</p>
+</div>
 
-    <!-- 7-DAY MOOD GRAPH -->
-    <div class="insight-card">
-        <h2>Last 7 Days</h2>
-        {% if entries_7 %}
-        <div class="mood-graph">
-            {% for entry in entries_7 %}
-            <div class="mood-bar" style="height: {{ entry.mood_score|add:'0' }}0%">
-                <span>{{ entry.get_mood_score_display }}</span>
-                <small>{{ entry.created_at|date:"D" }}</small>
-            </div>
-            {% endfor %}
+<!-- 7-DAY GRAPH -->
+<div class="il-card mb-3">
+    <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">Last 7 Days</p>
+    {% if entries_7 %}
+    <div style="display: flex; align-items: flex-end; gap: 8px; height: 80px;">
+        {% for entry in entries_7 %}
+        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;">
+            <div style="width: 100%; background: var(--il-primary); border-radius: 6px 6px 0 0; height: {{ entry.mood_score }}0px; opacity: 0.8;"></div>
+            <span style="font-size: 0.65rem; color: var(--il-text-muted);">{{ entry.created_at|date:"D" }}</span>
         </div>
-        {% else %}
-        <p>No mood data yet for the past 7 days.</p>
-        {% endif %}
+        {% endfor %}
     </div>
+    {% else %}
+    <p style="color: var(--il-text-muted); font-size: 0.875rem;">No mood data yet.</p>
+    {% endif %}
+</div>
 
-    <!-- 30-DAY MOOD GRAPH -->
-    <div class="insight-card">
-        <h2>Last 30 Days</h2>
-        {% if entries_30 %}
-        <div class="mood-graph">
-            {% for entry in entries_30 %}
-            <div class="mood-bar" style="height: {{ entry.mood_score|add:'0' }}0%">
-                <small>{{ entry.created_at|date:"d" }}</small>
-            </div>
-            {% endfor %}
+<!-- TOP EMOTIONS -->
+<div class="il-card mb-3">
+    <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">Top Emotions (30 days)</p>
+    {% if top_emotions %}
+    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        {% for emotion, count in top_emotions %}
+        <span class="il-badge">{{ emotion }} · {{ count }}</span>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p style="color: var(--il-text-muted); font-size: 0.875rem;">No emotion data yet.</p>
+    {% endif %}
+</div>
+
+<!-- BEST & LOWEST -->
+<div class="row g-3 mb-3">
+    <div class="col-6">
+        <div class="il-card text-center h-100">
+            <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px;">Best Day</p>
+            {% if best_mood %}
+            <div style="font-size: 2rem;">😄</div>
+            <p style="font-size: 0.8rem; color: var(--il-text-muted); margin: 0;">{{ best_mood.created_at|date:"M d" }}</p>
+            {% else %}
+            <p style="color: var(--il-text-muted); font-size: 0.875rem;">—</p>
+            {% endif %}
         </div>
-        {% else %}
-        <p>No mood data yet for the past 30 days.</p>
-        {% endif %}
     </div>
-
-    <!-- TOP EMOTIONS -->
-    <div class="insight-card">
-        <h2>🏷️ Top Emotions</h2>
-        {% if top_emotions %}
-        <div class="emotion-tags">
-            {% for emotion, count in top_emotions %}
-            <span class="tag">{{ emotion }} ({{ count }})</span>
-            {% endfor %}
+    <div class="col-6">
+        <div class="il-card text-center h-100">
+            <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px;">Lowest Day</p>
+            {% if lowest_mood %}
+            <div style="font-size: 2rem;">😞</div>
+            <p style="font-size: 0.8rem; color: var(--il-text-muted); margin: 0;">{{ lowest_mood.created_at|date:"M d" }}</p>
+            {% else %}
+            <p style="color: var(--il-text-muted); font-size: 0.875rem;">—</p>
+            {% endif %}
         </div>
-        {% else %}
-        <p>No emotion data yet.</p>
-        {% endif %}
     </div>
+</div>
 
-    <!-- BEST & LOWEST MOOD -->
-    <div class="insight-card">
-        <h2>🌟 Best & Lowest Mood</h2>
-        {% if best_mood %}
-        <p>Best: {{ best_mood.get_mood_score_display }} on {{ best_mood.created_at|date:"M d" }}</p>
-        {% endif %}
-        {% if lowest_mood %}
-        <p>Lowest: {{ lowest_mood.get_mood_score_display }} on {{ lowest_mood.created_at|date:"M d" }}</p>
-        {% endif %}
-    </div>
-
-    <a href="{% url 'mood_checkin' %}" class="btn-primary">Log Today's Mood</a>
-    <a href="{% url 'mood_history' %}" class="btn-secondary">View History</a>
+<div class="d-flex gap-3">
+    <a href="{% url 'mood_checkin' %}" class="btn-il-primary" style="text-decoration: none; padding: 10px 24px;">Log Mood</a>
+    <a href="{% url 'mood_history' %}" class="btn-il-secondary" style="text-decoration: none; padding: 10px 24px;">View History</a>
 </div>
 {% endblock %}

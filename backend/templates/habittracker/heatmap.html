@@ -3,26 +3,30 @@
 {% block title %}{{ habit.name }} Heatmap — InnerLight{% endblock %}
 
 {% block content %}
-<div class="heatmap-container">
-    <h1>{{ habit.icon }} {{ habit.name }} — Monthly Heatmap</h1>
+<div class="mb-4">
+    <div style="font-size: 2rem; margin-bottom: 0.5rem;">{{ habit.icon|default:"✅" }}</div>
+    <h1 style="font-size: 1.5rem; font-weight: 600;">{{ habit.name }}</h1>
+    <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Your monthly consistency heatmap.</p>
+</div>
 
+<div class="il-card">
+    <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">Heatmap</p>
     {% if logs %}
     <div class="heatmap-grid">
         {% for log in logs %}
         <div class="heatmap-cell completion-{{ log.completion }}" title="{{ log.date }} — {{ log.get_completion_display }}">
-            <small>{{ log.date|date:"d" }}</small>
         </div>
         {% endfor %}
     </div>
-
-    <!-- STREAK -->
-    <div class="streak-info">
-        <p>🔥 Keep it up!</p>
+    <div class="d-flex gap-3 mt-3" style="font-size: 0.78rem; color: var(--il-text-muted);">
+        <span>🟢 Full</span>
+        <span>🟡 Partial</span>
+        <span>🔴 Skipped</span>
     </div>
     {% else %}
-    <p>No logs yet for this habit.</p>
+    <p style="color: var(--il-text-muted); font-size: 0.875rem;">No logs yet for this habit.</p>
     {% endif %}
-
-    <a href="{% url 'habit_list' %}" class="btn-secondary">← Back</a>
 </div>
+
+<a href="{% url 'habit_list' %}" class="btn-il-secondary" style="text-decoration: none; padding: 10px 24px;">← Back</a>
 {% endblock %}

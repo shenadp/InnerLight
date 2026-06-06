@@ -3,28 +3,42 @@
 {% block title %}Login — InnerLight{% endblock %}
 
 {% block content %}
-<div class="auth-container">
-    <div class="auth-card">
-        <div class="auth-header">
-            <h1>🌟 InnerLight</h1>
-            <p>Find calm within</p>
+<div class="d-flex align-items-center justify-content-center" style="min-height: 80vh;">
+    <div style="width: 100%; max-width: 420px;">
+
+        <!-- LOGO -->
+        <div class="text-center mb-4">
+            <div style="font-size: 2.5rem;">🌿</div>
+            <h1 style="font-size: 1.8rem; font-weight: 600; color: var(--il-text);">InnerLight</h1>
+            <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Find calm within</p>
         </div>
 
-        <form method="POST">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="form-group">
-                <label>{{ field.label }}</label>
-                {{ field }}
-                {% if field.errors %}
-                <span class="error">{{ field.errors }}</span>
-                {% endif %}
-            </div>
-            {% endfor %}
-            <button type="submit" class="btn-primary">Login</button>
-        </form>
+        <!-- CARD -->
+        <div class="il-card">
+            <h2 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1.5rem; color: var(--il-text);">Welcome back</h2>
 
-        <p class="auth-link">Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+            <form method="POST">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <div style="font-size: 0.8rem; color: var(--il-danger); margin-top: 4px;">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <button type="submit" class="btn-il-primary w-100 mt-2" style="padding: 12px;">
+                    Login
+                </button>
+            </form>
+
+            <p class="text-center mt-3 mb-0" style="font-size: 0.875rem; color: var(--il-text-muted);">
+                Don't have an account? <a href="{% url 'register' %}" style="color: var(--il-primary); font-weight: 500;">Register</a>
+            </p>
+        </div>
+
     </div>
 </div>
 {% endblock %}

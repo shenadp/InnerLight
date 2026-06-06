@@ -3,22 +3,30 @@
 {% block title %}Edit Entry — InnerLight{% endblock %}
 
 {% block content %}
-<div class="form-container">
-    <h1>✏️ Edit Entry</h1>
-
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-        {% for field in form %}
-        <div class="form-group">
-            <label>{{ field.label }}</label>
-            {{ field }}
-            {% if field.errors %}
-            <span class="error">{{ field.errors }}</span>
-            {% endif %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-9 col-lg-7">
+        <div class="mb-4">
+            <h1 style="font-size: 1.5rem; font-weight: 600;">Edit Entry</h1>
+            <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Update your journal entry.</p>
         </div>
-        {% endfor %}
-        <button type="submit" class="btn-primary">Update Entry</button>
-        <a href="{% url 'journal_detail' entry.pk %}" class="btn-secondary">Cancel</a>
-    </form>
+        <div class="il-card">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="mb-3">
+                    <label class="form-label">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                    <div style="font-size: 0.8rem; color: var(--il-danger); margin-top: 4px;">{{ field.errors }}</div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <div class="d-flex gap-3 mt-4">
+                    <button type="submit" class="btn-il-primary" style="padding: 10px 28px;">Update</button>
+                    <a href="{% url 'journal_detail' entry.pk %}" class="btn-il-secondary" style="padding: 10px 28px; text-decoration: none;">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
