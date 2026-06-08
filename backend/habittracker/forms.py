@@ -1,5 +1,6 @@
 from django import forms
 from .models import Habit, HabitLog
+from accounts.widgets import ToggleWidget, StyledTimeInput
 
 class HabitForm(forms.ModelForm):
     custom_days = forms.MultipleChoiceField(
@@ -18,7 +19,7 @@ class HabitForm(forms.ModelForm):
     )
     reminder_time = forms.TimeField(
         required=False,
-        widget=forms.TimeInput(attrs={'type': 'time'}),
+        widget=StyledTimeInput(attrs={'type': 'time'}),
         label='Reminder Time'
     )
     goal_duration = forms.IntegerField(

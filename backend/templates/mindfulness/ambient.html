@@ -3,66 +3,84 @@
 {% block title %}Ambient Sounds — InnerLight{% endblock %}
 
 {% block content %}
+
+<div class="mb-3">
+    <a href="{% url 'calm_home' %}" class="btn-il-secondary" style="padding:7px 18px; font-size:0.85rem; text-decoration:none;">
+        <i class="bi bi-chevron-left"></i> Back
+    </a>
+</div>
+
 <div class="mb-4">
-    <h1 style="font-size: 1.5rem; font-weight: 600;">Ambient Sounds</h1>
-    <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Mix up to 3 sounds for your perfect environment.</p>
+    <h1 style="font-size:1.5rem; font-weight:700;">
+        <i class="bi bi-music-note-beamed" style="color:var(--il-primary);"></i> Ambient Sounds
+    </h1>
+    <p style="color:var(--il-text-muted); font-size:0.9rem;">Mix up to 3 sounds for your perfect environment.</p>
 </div>
 
-<!-- NATURE SOUNDS -->
 <div class="il-card mb-3">
-    <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">🌿 Nature Sounds</p>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+    <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:1rem;">
+        <i class="bi bi-tree"></i> Nature Sounds
+    </p>
+    <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px;">
         {% for sound in nature_sounds %}
-        <div style="padding: 14px; border-radius: 14px; background: var(--il-bg-secondary); border: 1.5px solid rgba(151, 169, 124, 0.2); text-align: center; cursor: pointer;" class="sound-card" data-audio="{{ sound.audio_file.url }}">
-            <div style="font-size: 1.8rem; margin-bottom: 4px;">
-                {% if 'rain' in sound.name.lower %}🌧️
-                {% elif 'forest' in sound.name.lower %}🌲
-                {% elif 'ocean' in sound.name.lower %}🌊
-                {% elif 'fire' in sound.name.lower %}🔥
-                {% else %}🎵{% endif %}
+        <div style="padding:14px; border-radius:14px; background:var(--il-bg-secondary); border:1px solid var(--il-border); text-align:center; cursor:pointer;" class="sound-card" data-audio="{{ sound.audio_file.url }}">
+            <div style="font-size:1.6rem; margin-bottom:6px;">
+                {% if 'rain' in sound.name.lower %}<i class="bi bi-cloud-rain" style="color:var(--il-primary);"></i>
+                {% elif 'forest' in sound.name.lower %}<i class="bi bi-tree" style="color:var(--il-primary);"></i>
+                {% elif 'ocean' in sound.name.lower %}<i class="bi bi-water" style="color:var(--il-primary);"></i>
+                {% elif 'fire' in sound.name.lower %}<i class="bi bi-fire" style="color:#E07B39;"></i>
+                {% else %}<i class="bi bi-music-note" style="color:var(--il-primary);"></i>{% endif %}
             </div>
-            <p style="font-size: 0.85rem; font-weight: 500; margin: 0 0 8px;">{{ sound.name }}</p>
-            <button class="btn-il-secondary toggle-sound" style="padding: 5px 16px; font-size: 0.78rem;">Play</button>
+            <p style="font-size:0.85rem; font-weight:600; margin:0 0 8px;">{{ sound.name }}</p>
+            <button class="btn-il-secondary toggle-sound" style="padding:5px 16px; font-size:0.78rem;">
+                <i class="bi bi-play-fill"></i> Play
+            </button>
         </div>
         {% empty %}
-        <p style="color: var(--il-text-muted); font-size: 0.875rem;">No sounds available yet.</p>
+        <p style="color:var(--il-text-muted); font-size:0.875rem;">No sounds available yet.</p>
         {% endfor %}
     </div>
 </div>
 
-<!-- BINAURAL TONES -->
 <div class="il-card mb-3">
-    <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">🎧 Binaural Tones</p>
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+    <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:1rem;">
+        <i class="bi bi-headphones"></i> Binaural Tones
+    </p>
+    <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:10px;">
         {% for sound in binaural_sounds %}
-        <div style="padding: 14px; border-radius: 14px; background: var(--il-bg-secondary); border: 1.5px solid rgba(151, 169, 124, 0.2); text-align: center; cursor: pointer;" class="sound-card" data-audio="{{ sound.audio_file.url }}">
-            <div style="font-size: 1.8rem; margin-bottom: 4px;">
-                {% if sound.binaural_type == 'focus' %}🎯
-                {% elif sound.binaural_type == 'sleep' %}😴
-                {% elif sound.binaural_type == 'calm' %}☁️
-                {% else %}🎵{% endif %}
+        <div style="padding:14px; border-radius:14px; background:var(--il-bg-secondary); border:1px solid var(--il-border); text-align:center; cursor:pointer;" class="sound-card" data-audio="{{ sound.audio_file.url }}">
+            <div style="font-size:1.6rem; margin-bottom:6px;">
+                {% if sound.binaural_type == 'focus' %}<i class="bi bi-bullseye" style="color:var(--il-primary);"></i>
+                {% elif sound.binaural_type == 'sleep' %}<i class="bi bi-moon-stars" style="color:var(--il-primary);"></i>
+                {% elif sound.binaural_type == 'calm' %}<i class="bi bi-cloud" style="color:var(--il-primary);"></i>
+                {% else %}<i class="bi bi-music-note" style="color:var(--il-primary);"></i>{% endif %}
             </div>
-            <p style="font-size: 0.85rem; font-weight: 500; margin: 0 0 4px;">{{ sound.name }}</p>
-            <p style="font-size: 0.75rem; color: var(--il-text-muted); margin: 0 0 8px;">{{ sound.get_binaural_type_display }}</p>
-            <button class="btn-il-secondary toggle-sound" style="padding: 5px 16px; font-size: 0.78rem;">Play</button>
+            <p style="font-size:0.85rem; font-weight:600; margin:0 0 4px;">{{ sound.name }}</p>
+            <p style="font-size:0.75rem; color:var(--il-text-muted); margin:0 0 8px;">{{ sound.get_binaural_type_display }}</p>
+            <button class="btn-il-secondary toggle-sound" style="padding:5px 16px; font-size:0.78rem;">
+                <i class="bi bi-play-fill"></i> Play
+            </button>
         </div>
         {% empty %}
-        <p style="color: var(--il-text-muted); font-size: 0.875rem;">No tones available yet.</p>
+        <p style="color:var(--il-text-muted); font-size:0.875rem;">No tones available yet.</p>
         {% endfor %}
     </div>
 </div>
 
-<!-- SLEEP TIMER -->
 <div class="il-card">
-    <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">⏱️ Sleep Timer</p>
+    <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:1rem;">
+        <i class="bi bi-alarm"></i> Sleep Timer
+    </p>
     <div class="d-flex gap-3 align-items-center">
-        <select id="sleepTimer" class="form-select" style="flex: 1;">
+        <select id="sleepTimer" class="form-select" style="flex:1;">
             <option value="">No timer</option>
             <option value="15">15 minutes</option>
             <option value="30">30 minutes</option>
             <option value="60">60 minutes</option>
         </select>
-        <button class="btn-il-primary" id="startTimer" style="padding: 10px 20px; white-space: nowrap;">Set Timer</button>
+        <button class="btn-il-primary" id="startTimer" style="padding:10px 20px; white-space:nowrap;">
+            <i class="bi bi-alarm"></i> Set Timer
+        </button>
     </div>
 </div>
 
@@ -75,21 +93,17 @@ document.querySelectorAll('.toggle-sound').forEach(btn => {
         if (activeSounds[audioUrl]) {
             activeSounds[audioUrl].pause();
             delete activeSounds[audioUrl];
-            btn.textContent = 'Play';
+            btn.innerHTML = '<i class="bi bi-play-fill"></i> Play';
         } else {
-            if (Object.keys(activeSounds).length >= 3) {
-                alert('Max 3 sounds at a time!');
-                return;
-            }
+            if (Object.keys(activeSounds).length >= 3) { alert('Max 3 sounds at a time!'); return; }
             const audio = new Audio(audioUrl);
             audio.loop = true;
             audio.play();
             activeSounds[audioUrl] = audio;
-            btn.textContent = 'Stop';
+            btn.innerHTML = '<i class="bi bi-stop-fill"></i> Stop';
         }
     });
 });
-
 document.getElementById('startTimer').addEventListener('click', () => {
     const minutes = parseInt(document.getElementById('sleepTimer').value);
     if (minutes) {

@@ -7,8 +7,10 @@
     <div class="col-12 col-md-8 col-lg-6">
 
         <div class="mb-4">
-            <h1 style="font-size: 1.5rem; font-weight: 600;">How are you feeling?</h1>
-            <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Take a moment to check in with yourself.</p>
+            <h1 style="font-size:1.5rem; font-weight:700;">
+                <i class="bi bi-emoji-smile" style="color:var(--il-primary);"></i> How are you feeling?
+            </h1>
+            <p style="color:var(--il-text-muted); font-size:0.9rem;">Take a moment to check in with yourself.</p>
         </div>
 
         <form method="POST">
@@ -16,60 +18,74 @@
 
             <!-- MOOD SCALE -->
             <div class="il-card mb-3">
-                <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">Mood</p>
+                <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:1rem;">
+                    <i class="bi bi-heart-pulse"></i> Mood
+                </p>
                 <div class="mood-emoji-row">
                     <button type="button" class="mood-emoji-btn" data-value="1" onclick="selectMood(1)">
-                        <div style="font-size: 1.8rem;">😞</div>
-                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Awful</div>
+                        <i class="bi bi-emoji-frown" style="font-size:1.8rem; color:#C4908A;"></i>
+                        <div style="font-size:0.7rem; color:var(--il-text-muted); margin-top:4px;">Awful</div>
                     </button>
                     <button type="button" class="mood-emoji-btn" data-value="2" onclick="selectMood(2)">
-                        <div style="font-size: 1.8rem;">😕</div>
-                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Bad</div>
+                        <i class="bi bi-emoji-expressionless" style="font-size:1.8rem; color:#C4908A;"></i>
+                        <div style="font-size:0.7rem; color:var(--il-text-muted); margin-top:4px;">Bad</div>
                     </button>
                     <button type="button" class="mood-emoji-btn" data-value="3" onclick="selectMood(3)">
-                        <div style="font-size: 1.8rem;">😐</div>
-                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Okay</div>
+                        <i class="bi bi-emoji-neutral" style="font-size:1.8rem; color:#B5C99A;"></i>
+                        <div style="font-size:0.7rem; color:var(--il-text-muted); margin-top:4px;">Okay</div>
                     </button>
                     <button type="button" class="mood-emoji-btn" data-value="4" onclick="selectMood(4)">
-                        <div style="font-size: 1.8rem;">🙂</div>
-                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Good</div>
+                        <i class="bi bi-emoji-smile" style="font-size:1.8rem; color:#97A97C;"></i>
+                        <div style="font-size:0.7rem; color:var(--il-text-muted); margin-top:4px;">Good</div>
                     </button>
                     <button type="button" class="mood-emoji-btn" data-value="5" onclick="selectMood(5)">
-                        <div style="font-size: 1.8rem;">😄</div>
-                        <div style="font-size: 0.7rem; color: var(--il-text-muted); margin-top: 4px;">Amazing</div>
+                        <i class="bi bi-emoji-laughing" style="font-size:1.8rem; color:#718355;"></i>
+                        <div style="font-size:0.7rem; color:var(--il-text-muted); margin-top:4px;">Amazing</div>
                     </button>
                 </div>
-                <div style="display: none;">{{ form.mood_score }}</div>
+                <div style="display:none;">{{ form.mood_score }}</div>
             </div>
 
             <!-- ENERGY LEVEL -->
             <div class="il-card mb-3">
-                <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.75rem;">Energy Level</p>
+                <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:0.75rem;">
+                    <i class="bi bi-battery-charging"></i> Energy Level
+                </p>
                 <div class="d-flex justify-content-between mb-2">
-                    <span style="font-size: 0.8rem; color: var(--il-text-muted);">😴 Drained</span>
-                    <span style="font-size: 0.8rem; color: var(--il-text-muted);">⚡ Energized</span>
+                    <span style="font-size:0.8rem; color:var(--il-text-muted);">
+                        <i class="bi bi-moon"></i> Drained
+                    </span>
+                    <span style="font-size:0.8rem; color:var(--il-text-muted);">
+                        <i class="bi bi-lightning-charge"></i> Energized
+                    </span>
                 </div>
                 {{ form.energy_level }}
                 {% if form.energy_level.errors %}
-                <div style="font-size: 0.8rem; color: var(--il-danger);">{{ form.energy_level.errors }}</div>
+                <div style="font-size:0.8rem; color:var(--il-danger);">{{ form.energy_level.errors }}</div>
                 {% endif %}
             </div>
 
             <!-- EMOTION TAG -->
             <div class="il-card mb-3">
-                <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.75rem;">Emotion</p>
+                <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:0.75rem;">
+                    <i class="bi bi-tag"></i> Emotion
+                </p>
                 {{ form.emotion_tag }}
             </div>
 
             <!-- NOTE -->
             <div class="il-card mb-4">
-                <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.75rem;">Quick Note <span style="font-weight: 300;">(optional)</span></p>
+                <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:0.75rem;">
+                    <i class="bi bi-pencil-square"></i> Quick Note <span style="font-weight:400; text-transform:none;">(optional)</span>
+                </p>
                 {{ form.note }}
             </div>
 
             <div class="d-flex gap-3">
-                <button type="submit" class="btn-il-primary" style="padding: 12px 32px;">Log Mood</button>
-                <a href="{% url 'dashboard' %}" class="btn-il-secondary" style="padding: 12px 32px; text-decoration: none;">Cancel</a>
+                <button type="submit" class="btn-il-primary" style="padding:12px 32px;">
+                    <i class="bi bi-check2"></i> Log Mood
+                </button>
+                <a href="{% url 'dashboard' %}" class="btn-il-secondary" style="padding:12px 32px; text-decoration:none;">Cancel</a>
             </div>
         </form>
     </div>

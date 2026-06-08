@@ -5,11 +5,15 @@
 {% block content %}
 <div class="row justify-content-center">
     <div class="col-12 col-md-6">
-        <div class="il-card text-center" style="padding: 2.5rem;">
-            <div style="font-size: 3rem; margin-bottom: 0.75rem;">{{ ua.achievement.icon }}</div>
-            <h1 style="font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">{{ ua.achievement.name }}</h1>
-            <p style="color: var(--il-text-muted); font-size: 0.875rem; margin-bottom: 0.5rem;">{{ ua.achievement.description }}</p>
-            <p style="font-size: 0.78rem; color: var(--il-text-muted); margin-bottom: 2rem;">Unlocked {{ ua.unlocked_at|date:"M d, Y" }}</p>
+        <div class="il-card text-center" style="padding:2.5rem;">
+            <div style="width:72px; height:72px; border-radius:50%; background:#FBF4E4; border:2px solid #E8D5A0; display:flex; align-items:center; justify-content:center; margin:0 auto 1rem;">
+                <i class="bi bi-trophy-fill" style="font-size:1.8rem; color:#C9A84C;"></i>
+            </div>
+            <h1 style="font-size:1.3rem; font-weight:700; margin-bottom:0.5rem;">{{ ua.achievement.name }}</h1>
+            <p style="color:var(--il-text-muted); font-size:0.875rem; margin-bottom:0.5rem;">{{ ua.achievement.description }}</p>
+            <p style="font-size:0.78rem; color:var(--il-text-muted); margin-bottom:2rem;">
+                <i class="bi bi-calendar3"></i> Unlocked {{ ua.unlocked_at|date:"M d, Y" }}
+            </p>
             <form method="POST">
                 {% csrf_token %}
                 {% for field in form %}
@@ -19,8 +23,10 @@
                 </div>
                 {% endfor %}
                 <div class="d-flex gap-3 justify-content-center">
-                    <button type="submit" class="btn-il-primary" style="padding: 10px 28px;">Save</button>
-                    <a href="{% url 'achievements' %}" class="btn-il-secondary" style="padding: 10px 28px; text-decoration: none;">Cancel</a>
+                    <button type="submit" class="btn-il-primary" style="padding:10px 28px;">
+                        <i class="bi bi-share"></i> Save
+                    </button>
+                    <a href="{% url 'achievements' %}" class="btn-il-secondary" style="padding:10px 28px; text-decoration:none;">Cancel</a>
                 </div>
             </form>
         </div>

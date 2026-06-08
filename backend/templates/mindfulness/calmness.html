@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block title %}Calm — InnerLight{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+
+        <div class="mb-4">
+            <h1 style="font-size:1.5rem; font-weight:700;">
+                <i class="bi bi-wind" style="color:var(--il-primary);"></i> Calm
+            </h1>
+            <p style="color:var(--il-text-muted); font-size:0.9rem;">Find your stillness. Choose where to begin.</p>
+        </div>
+
+        <!-- Breathing -->
+        <a href="{% url 'breathing' %}" class="calm-card" style="text-decoration:none;">
+            <div class="calm-icon" style="background:linear-gradient(135deg, rgba(151,169,124,0.2), rgba(181,201,154,0.1));">
+                <i class="bi bi-wind" style="color:var(--il-primary);"></i>
+            </div>
+            <div class="calm-body">
+                <p class="calm-title">Breathing Exercise</p>
+                <p class="calm-desc">Guided breathwork to reduce stress and find your center.</p>
+                <div class="calm-tags">
+                    <span class="il-chip">Box Breathing</span>
+                    <span class="il-chip">4-7-8</span>
+                </div>
+            </div>
+            <i class="bi bi-chevron-right calm-arrow"></i>
+        </a>
+
+        <!-- Ambient Sounds -->
+        <a href="{% url 'ambient' %}" class="calm-card" style="text-decoration:none;">
+            <div class="calm-icon" style="background:linear-gradient(135deg, rgba(100,140,160,0.2), rgba(130,170,190,0.1));">
+                <i class="bi bi-music-note-beamed" style="color:#6A9AB0;"></i>
+            </div>
+            <div class="calm-body">
+                <p class="calm-title">Ambient Sounds</p>
+                <p class="calm-desc">Mix nature sounds and binaural tones for your perfect environment.</p>
+                <div class="calm-tags">
+                    <span class="il-chip">Nature</span>
+                    <span class="il-chip">Binaural</span>
+                    <span class="il-chip">Sleep Timer</span>
+                </div>
+            </div>
+            <i class="bi bi-chevron-right calm-arrow"></i>
+        </a>
+
+        <!-- Affirmations -->
+        <a href="{% url 'affirmation' %}" class="calm-card" style="text-decoration:none;">
+            <div class="calm-icon" style="background:linear-gradient(135deg, rgba(201,168,76,0.2), rgba(220,190,100,0.1));">
+                <i class="bi bi-stars" style="color:#C9A84C;"></i>
+            </div>
+            <div class="calm-body">
+                <p class="calm-title">Affirmations</p>
+                <p class="calm-desc">Words that nurture your inner light and lift your spirit.</p>
+                <div class="calm-tags">
+                    <span class="il-chip">Daily Pick</span>
+                    <span class="il-chip">Favorites</span>
+                </div>
+            </div>
+            <i class="bi bi-chevron-right calm-arrow"></i>
+        </a>
+
+        {% if recent_session %}
+        <div class="il-card mt-3" style="padding:1.25rem 1.5rem;">
+            <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:0.75rem;">
+                <i class="bi bi-clock-history"></i> Last Session
+            </p>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p style="font-weight:600; font-size:0.9rem; margin:0; color:var(--il-text);">{{ recent_session.technique|default:"Breathing" }}</p>
+                    <p style="font-size:0.8rem; color:var(--il-text-muted); margin:0;">{{ recent_session.completed_at|timesince }} ago</p>
+                </div>
+                <a href="{% url 'breathing' %}" class="btn-il-secondary" style="padding:6px 16px; font-size:0.8rem;">Continue</a>
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</div>
+
+<style>
+    .calm-card {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: var(--il-bg-card);
+        border: 2px solid var(--il-border);
+        border-radius: var(--il-radius-lg);
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1rem;
+        transition: all 0.22s ease;
+        color: var(--il-text);
+    }
+
+    .calm-card:hover {
+        border-color: var(--il-primary);
+        transform: translateY(-2px);
+        box-shadow: var(--il-shadow-hover);
+        color: var(--il-text);
+    }
+
+    .calm-icon {
+        width: 52px;
+        height: 52px;
+        border-radius: var(--il-radius-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        flex-shrink: 0;
+    }
+
+    .calm-body {
+        flex: 1;
+    }
+
+    .calm-title {
+        font-weight: 700;
+        font-size: 1rem;
+        margin: 0 0 3px;
+        color: var(--il-text);
+    }
+
+    .calm-desc {
+        font-size: 0.82rem;
+        color: var(--il-text-muted);
+        margin: 0 0 8px;
+        line-height: 1.4;
+    }
+
+    .calm-tags {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .calm-tags .il-chip {
+        padding: 3px 10px;
+        font-size: 0.72rem;
+        cursor: default;
+    }
+
+    .calm-arrow {
+        font-size: 0.9rem;
+        color: var(--il-text-muted);
+        flex-shrink: 0;
+    }
+</style>
+{% endblock %}

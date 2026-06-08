@@ -6,6 +6,11 @@ from .forms import BreathingSessionForm, AffirmationForm
 import random
 
 @login_required
+def calm_view(request):
+    recent_session = BreathingSession.objects.filter(user=request.user).order_by('completed_at').first()
+    return render(request, 'mindfulness/calmness.html', {'recent_session': recent_session})
+
+@login_required
 def breathing_view(request):
     if request.method == 'POST':
         form = BreathingSessionForm(request.POST)

@@ -11,9 +11,8 @@ class CustomUser(AbstractUser):
     THEME_CHOICES = [
         ('light', 'Light'),
         ('dark', 'Dark'),
-        ('lavender', 'Soft Lavender'),
     ]
-    theme = models.CharField(max_length=20, choices=THEME_CHOICES, default='dark')
+    theme = models.CharField(max_length=20, choices=THEME_CHOICES, default='light')
 
     # NOTIFICATION PREFERENCES
     notif_morning_checkin = models.BooleanField(default=True)

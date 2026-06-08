@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
+from accounts.widgets import ToggleWidget, StyledTimeInput
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -45,3 +46,28 @@ class UserProfileForm(forms.ModelForm):
             'biometric_lock',
             'private_mode',
         ]
+        labels = {
+            'display_name': 'Display Name',
+            'avatar': 'Profile Photo',
+            'personal_affirmation': 'Personal Affirmation',
+            'wellness_intention': 'Wellness Intention',
+            'theme': 'Theme',
+            'notif_morning_checkin': 'Morning Check-in',
+            'notif_journal_nudge': 'Journal Reminder',
+            'notif_streak_warning': 'Streak Warning',
+            'notif_motivational': 'Motivational Quotes',
+            'dnd_start': 'Do Not Disturb — Start',
+            'dnd_end': 'Do Not Disturb — End',
+            'biometric_lock': 'Biometric Lock',
+            'private_mode': 'Private Mode',
+        }
+        widgets = {
+            'notif_morning_checkin': ToggleWidget(),
+            'notif_journal_nudge': ToggleWidget(),
+            'notif_streak_warning': ToggleWidget(),
+            'notif_motivational': ToggleWidget(),
+            'dnd_start': StyledTimeInput(attrs={'type': 'time'}),
+            'dnd_end': StyledTimeInput(attrs={'type': 'time'}),
+            'biometric_lock': ToggleWidget(),
+            'private_mode': ToggleWidget(),
+        }

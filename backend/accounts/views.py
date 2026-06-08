@@ -3,6 +3,8 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import RegisterForm, LoginForm, UserProfileForm
+from django.http import JsonResponse
+import json
 
 def register_view(request):
     if request.method == 'POST':
@@ -52,3 +54,13 @@ def profile_view(request):
 @login_required
 def dashboard_view(request):
     return render(request, 'dashboard.html', {'user': request.user})
+
+@login_required
+def set_theme_view(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        theme = data.get('theme')
+        if theme in ['light', 'dark']:
+            request.user.theme = theme
+            request.user.save(update_fields=['theme'])
+    return JsonResponse({'status': 'ok'})

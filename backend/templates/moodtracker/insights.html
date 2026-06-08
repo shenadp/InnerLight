@@ -4,38 +4,44 @@
 
 {% block content %}
 <div class="mb-4">
-    <h1 style="font-size: 1.5rem; font-weight: 600;">Mood Insights</h1>
-    <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Track your emotional patterns over time.</p>
+    <h1 style="font-size:1.5rem; font-weight:700;">
+        <i class="bi bi-graph-up" style="color:var(--il-primary);"></i> Mood Insights
+    </h1>
+    <p style="color:var(--il-text-muted); font-size:0.9rem;">Track your emotional patterns over time.</p>
 </div>
 
 <!-- 7-DAY GRAPH -->
 <div class="il-card mb-3">
-    <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">Last 7 Days</p>
+    <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:1rem;">
+        <i class="bi bi-bar-chart"></i> Last 7 Days
+    </p>
     {% if entries_7 %}
-    <div style="display: flex; align-items: flex-end; gap: 8px; height: 80px;">
+    <div style="display:flex; align-items:flex-end; gap:8px; height:80px;">
         {% for entry in entries_7 %}
-        <div style="flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;">
-            <div style="width: 100%; background: var(--il-primary); border-radius: 6px 6px 0 0; height: {{ entry.mood_score }}0px; opacity: 0.8;"></div>
-            <span style="font-size: 0.65rem; color: var(--il-text-muted);">{{ entry.created_at|date:"D" }}</span>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:4px;">
+            <div style="width:100%; background:var(--il-primary); border-radius:6px 6px 0 0; height:{{ entry.mood_score }}0px; opacity:0.8;"></div>
+            <span style="font-size:0.65rem; color:var(--il-text-muted);">{{ entry.created_at|date:"D" }}</span>
         </div>
         {% endfor %}
     </div>
     {% else %}
-    <p style="color: var(--il-text-muted); font-size: 0.875rem;">No mood data yet.</p>
+    <p style="color:var(--il-text-muted); font-size:0.875rem;">No mood data yet.</p>
     {% endif %}
 </div>
 
 <!-- TOP EMOTIONS -->
 <div class="il-card mb-3">
-    <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">Top Emotions (30 days)</p>
+    <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:1rem;">
+        <i class="bi bi-tags"></i> Top Emotions (30 days)
+    </p>
     {% if top_emotions %}
-    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+    <div style="display:flex; flex-wrap:wrap; gap:8px;">
         {% for emotion, count in top_emotions %}
         <span class="il-badge">{{ emotion }} · {{ count }}</span>
         {% endfor %}
     </div>
     {% else %}
-    <p style="color: var(--il-text-muted); font-size: 0.875rem;">No emotion data yet.</p>
+    <p style="color:var(--il-text-muted); font-size:0.875rem;">No emotion data yet.</p>
     {% endif %}
 </div>
 
@@ -43,30 +49,38 @@
 <div class="row g-3 mb-3">
     <div class="col-6">
         <div class="il-card text-center h-100">
-            <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px;">Best Day</p>
+            <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:0.75rem;">
+                <i class="bi bi-arrow-up-circle" style="color:var(--il-primary);"></i> Best Day
+            </p>
             {% if best_mood %}
-            <div style="font-size: 2rem;">😄</div>
-            <p style="font-size: 0.8rem; color: var(--il-text-muted); margin: 0;">{{ best_mood.created_at|date:"M d" }}</p>
+            <i class="bi bi-emoji-laughing" style="font-size:2rem; color:#718355;"></i>
+            <p style="font-size:0.8rem; color:var(--il-text-muted); margin:4px 0 0;">{{ best_mood.created_at|date:"M d" }}</p>
             {% else %}
-            <p style="color: var(--il-text-muted); font-size: 0.875rem;">—</p>
+            <p style="color:var(--il-text-muted); font-size:0.875rem;">—</p>
             {% endif %}
         </div>
     </div>
     <div class="col-6">
         <div class="il-card text-center h-100">
-            <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px;">Lowest Day</p>
+            <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:0.75rem;">
+                <i class="bi bi-arrow-down-circle" style="color:var(--il-danger);"></i> Lowest Day
+            </p>
             {% if lowest_mood %}
-            <div style="font-size: 2rem;">😞</div>
-            <p style="font-size: 0.8rem; color: var(--il-text-muted); margin: 0;">{{ lowest_mood.created_at|date:"M d" }}</p>
+            <i class="bi bi-emoji-frown" style="font-size:2rem; color:#C4908A;"></i>
+            <p style="font-size:0.8rem; color:var(--il-text-muted); margin:4px 0 0;">{{ lowest_mood.created_at|date:"M d" }}</p>
             {% else %}
-            <p style="color: var(--il-text-muted); font-size: 0.875rem;">—</p>
+            <p style="color:var(--il-text-muted); font-size:0.875rem;">—</p>
             {% endif %}
         </div>
     </div>
 </div>
 
 <div class="d-flex gap-3">
-    <a href="{% url 'mood_checkin' %}" class="btn-il-primary" style="text-decoration: none; padding: 10px 24px;">Log Mood</a>
-    <a href="{% url 'mood_history' %}" class="btn-il-secondary" style="text-decoration: none; padding: 10px 24px;">View History</a>
+    <a href="{% url 'mood_checkin' %}" class="btn-il-primary" style="text-decoration:none; padding:10px 24px;">
+        <i class="bi bi-plus"></i> Log Mood
+    </a>
+    <a href="{% url 'mood_history' %}" class="btn-il-secondary" style="text-decoration:none; padding:10px 24px;">
+        <i class="bi bi-clock-history"></i> View History
+    </a>
 </div>
 {% endblock %}

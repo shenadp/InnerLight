@@ -3,43 +3,61 @@
 {% block title %}Breathing — InnerLight{% endblock %}
 
 {% block content %}
+
+<div class="mb-3">
+    <a href="{% url 'calm_home' %}" class="btn-il-secondary" style="padding:7px 18px; font-size:0.85rem; text-decoration:none;">
+        <i class="bi bi-chevron-left"></i> Back
+    </a>
+</div>
+
 <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
 
         <div class="mb-4">
-            <h1 style="font-size: 1.5rem; font-weight: 600;">Breathing Exercise</h1>
-            <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Breathe in calm, breathe out tension.</p>
+            <h1 style="font-size:1.5rem; font-weight:700;">
+                <i class="bi bi-wind" style="color:var(--il-primary);"></i> Breathing Exercise
+            </h1>
+            <p style="color:var(--il-text-muted); font-size:0.9rem;">Breathe in calm, breathe out tension.</p>
         </div>
 
-        <!-- BREATHING TYPES -->
         <div class="il-card mb-3">
-            <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">Choose a technique</p>
-            <div style="display: flex; flex-direction: column; gap: 10px;">
-                <div style="padding: 12px 16px; border-radius: 12px; background: var(--il-bg-secondary); border: 1.5px solid rgba(151, 169, 124, 0.2); cursor: pointer;" onclick="setBreathing(4,4,4,4,'box')">
-                    <p style="font-weight: 500; margin: 0; font-size: 0.9rem;">Box Breathing</p>
-                    <p style="color: var(--il-text-muted); font-size: 0.78rem; margin: 0;">4-4-4-4 · Stress relief</p>
+            <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:1rem;">
+                <i class="bi bi-list-ul"></i> Choose a technique
+            </p>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+                <div style="padding:12px 16px; border-radius:12px; background:var(--il-bg-secondary); border:1px solid var(--il-border); cursor:pointer;" onclick="setBreathing(4,4,4,4,'box')">
+                    <p style="font-weight:600; margin:0; font-size:0.9rem;">
+                        <i class="bi bi-square" style="color:var(--il-primary);"></i> Box Breathing
+                    </p>
+                    <p style="color:var(--il-text-muted); font-size:0.78rem; margin:0;">4-4-4-4 · Stress relief</p>
                 </div>
-                <div style="padding: 12px 16px; border-radius: 12px; background: var(--il-bg-secondary); border: 1.5px solid rgba(151, 169, 124, 0.2); cursor: pointer;" onclick="setBreathing(4,7,8,0,'478')">
-                    <p style="font-weight: 500; margin: 0; font-size: 0.9rem;">4-7-8 Breathing</p>
-                    <p style="color: var(--il-text-muted); font-size: 0.78rem; margin: 0;">Inhale 4 · Hold 7 · Exhale 8 · Sleep aid</p>
+                <div style="padding:12px 16px; border-radius:12px; background:var(--il-bg-secondary); border:1px solid var(--il-border); cursor:pointer;" onclick="setBreathing(4,7,8,0,'478')">
+                    <p style="font-weight:600; margin:0; font-size:0.9rem;">
+                        <i class="bi bi-moon-stars" style="color:var(--il-primary);"></i> 4-7-8 Breathing
+                    </p>
+                    <p style="color:var(--il-text-muted); font-size:0.78rem; margin:0;">Inhale 4 · Hold 7 · Exhale 8 · Sleep aid</p>
                 </div>
             </div>
         </div>
 
-        <!-- ANIMATED CIRCLE -->
         <div class="il-card mb-3 text-center">
             <div class="breathing-circle" id="breathingCircle">
-                <span id="breathingText" style="font-size: 0.9rem; font-weight: 500;">Inhale</span>
+                <span id="breathingText" style="font-size:0.9rem; font-weight:600;">Inhale</span>
             </div>
-            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 1rem;">
-                <button class="btn-il-primary" id="startBreathing" style="padding: 10px 28px;">Start</button>
-                <button class="btn-il-secondary" id="stopBreathing" style="padding: 10px 28px; display: none;">Stop</button>
+            <div style="display:flex; gap:12px; justify-content:center; margin-top:1rem;">
+                <button class="btn-il-primary" id="startBreathing" style="padding:10px 28px;">
+                    <i class="bi bi-play-fill"></i> Start
+                </button>
+                <button class="btn-il-secondary" id="stopBreathing" style="padding:10px 28px; display:none;">
+                    <i class="bi bi-stop-fill"></i> Stop
+                </button>
             </div>
         </div>
 
-        <!-- LOG SESSION -->
         <div class="il-card">
-            <p style="font-size: 0.75rem; font-weight: 600; color: var(--il-text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 1rem;">Log this session</p>
+            <p style="font-size:0.75rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:1rem;">
+                <i class="bi bi-journal-check"></i> Log this session
+            </p>
             <form method="POST">
                 {% csrf_token %}
                 {% for field in form %}
@@ -48,7 +66,9 @@
                     {{ field }}
                 </div>
                 {% endfor %}
-                <button type="submit" class="btn-il-primary" style="padding: 10px 28px;">Save Session</button>
+                <button type="submit" class="btn-il-primary" style="padding:10px 28px;">
+                    <i class="bi bi-check2"></i> Save Session
+                </button>
             </form>
         </div>
 

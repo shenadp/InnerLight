@@ -6,8 +6,10 @@
 <div class="row justify-content-center">
     <div class="col-12 col-md-8 col-lg-6">
         <div class="mb-4">
-            <h1 style="font-size: 1.5rem; font-weight: 600;">Add Reminder</h1>
-            <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Set a new notification schedule.</p>
+            <h1 style="font-size:1.5rem; font-weight:700;">
+                <i class="bi bi-bell-plus" style="color:var(--il-primary);"></i> Add Reminder
+            </h1>
+            <p style="color:var(--il-text-muted); font-size:0.9rem;">Set a new notification schedule.</p>
         </div>
         <div class="il-card">
             <form method="POST">
@@ -17,13 +19,15 @@
                     <label class="form-label">{{ field.label }}</label>
                     {{ field }}
                     {% if field.errors %}
-                    <div style="font-size: 0.8rem; color: var(--il-danger); margin-top: 4px;">{{ field.errors }}</div>
+                    <div style="font-size:0.8rem; color:var(--il-danger); margin-top:4px;">{{ field.errors }}</div>
                     {% endif %}
                 </div>
                 {% endfor %}
                 <div class="d-flex gap-3 mt-4">
-                    <button type="submit" class="btn-il-primary" style="padding: 10px 28px;">Save</button>
-                    <a href="{% url 'notification_settings' %}" class="btn-il-secondary" style="padding: 10px 28px; text-decoration: none;">Cancel</a>
+                    <button type="submit" class="btn-il-primary" style="padding:10px 28px;">
+                        <i class="bi bi-check2"></i> Save
+                    </button>
+                    <a href="{% url 'notification_settings' %}" class="btn-il-secondary" style="padding:10px 28px; text-decoration:none;">Cancel</a>
                 </div>
             </form>
         </div>

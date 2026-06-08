@@ -5,46 +5,58 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h1 style="font-size: 1.5rem; font-weight: 600;">My Habits</h1>
-        <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300; margin: 0;">Build consistency, one day at a time.</p>
+        <h1 style="font-size:1.5rem; font-weight:700;">My Habits</h1>
+        <p style="color:var(--il-text-muted); font-size:0.9rem; margin:0;">Build consistency, one day at a time.</p>
     </div>
-    <a href="{% url 'habit_create' %}" class="btn-il-primary" style="text-decoration: none; padding: 10px 20px; font-size: 0.85rem;">+ Add</a>
+    <a href="{% url 'habit_create' %}" class="btn-il-primary" style="text-decoration:none; padding:10px 20px; font-size:0.85rem;">
+        <i class="bi bi-plus"></i> Add
+    </a>
 </div>
 
 {% if habit_status %}
-<div style="display: flex; flex-direction: column; gap: 12px;">
+<div style="display:flex; flex-direction:column; gap:12px;">
     {% for item in habit_status %}
-    <div class="il-card" style="margin-bottom: 0;">
+    <div class="il-card" style="margin-bottom:0;">
         <div class="d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-3">
-                <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--il-bg-secondary); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; border: 1.5px solid rgba(151, 169, 124, 0.2);">
-                    {{ item.habit.icon|default:"✅" }}
+                <div style="width:44px; height:44px; border-radius:12px; background:var(--il-bg-secondary); display:flex; align-items:center; justify-content:center; font-size:1.3rem; border:1px solid var(--il-border);">
+                    <i class="bi bi-check2-circle" style="color:var(--il-primary);"></i>
                 </div>
                 <div>
-                    <p style="font-weight: 500; margin: 0; font-size: 0.95rem;">{{ item.habit.name }}</p>
-                    <span style="font-size: 0.75rem; color: var(--il-text-muted);">{{ item.habit.get_category_display }} · {{ item.habit.get_frequency_display }}</span>
+                    <p style="font-weight:600; margin:0; font-size:0.95rem;">{{ item.habit.name }}</p>
+                    <span style="font-size:0.75rem; color:var(--il-text-muted);">{{ item.habit.get_category_display }} · {{ item.habit.get_frequency_display }}</span>
                 </div>
             </div>
             <div class="d-flex align-items-center gap-2">
                 {% if item.log %}
                 <span class="il-badge">{{ item.log.get_completion_display }}</span>
                 {% else %}
-                <a href="{% url 'habit_log' item.habit.pk %}" class="btn-il-primary" style="text-decoration: none; padding: 6px 16px; font-size: 0.8rem;">Log</a>
+                <a href="{% url 'habit_log' item.habit.pk %}" class="btn-il-primary" style="text-decoration:none; padding:6px 16px; font-size:0.8rem;">Log</a>
                 {% endif %}
-                <a href="{% url 'habit_heatmap' item.habit.pk %}" style="color: var(--il-text-muted); font-size: 1rem; text-decoration: none;">📅</a>
-                <a href="{% url 'habit_edit' item.habit.pk %}" style="color: var(--il-text-muted); font-size: 1rem; text-decoration: none;">✏️</a>
-                <a href="{% url 'habit_delete' item.habit.pk %}" style="color: var(--il-danger); font-size: 1rem; text-decoration: none;">🗑️</a>
+                <a href="{% url 'habit_heatmap' item.habit.pk %}" style="color:var(--il-text-muted); font-size:1.1rem; text-decoration:none;" title="Heatmap">
+                    <i class="bi bi-calendar3"></i>
+                </a>
+                <a href="{% url 'habit_edit' item.habit.pk %}" style="color:var(--il-text-muted); font-size:1.1rem; text-decoration:none;" title="Edit">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <a href="{% url 'habit_delete' item.habit.pk %}" style="color:var(--il-danger); font-size:1.1rem; text-decoration:none;" title="Delete">
+                    <i class="bi bi-trash3"></i>
+                </a>
             </div>
         </div>
     </div>
     {% endfor %}
 </div>
 {% else %}
-<div class="il-card text-center" style="padding: 2.5rem;">
-    <div style="font-size: 3rem; margin-bottom: 1rem;">✅</div>
-    <p style="font-weight: 500; margin-bottom: 0.5rem;">No habits yet.</p>
-    <p style="color: var(--il-text-muted); font-size: 0.875rem; margin-bottom: 1.5rem;">Start building your daily routine!</p>
-    <a href="{% url 'habit_create' %}" class="btn-il-primary" style="text-decoration: none; padding: 10px 24px;">Create your first habit →</a>
+<div class="il-card text-center" style="padding:2.5rem;">
+    <div style="width:64px; height:64px; border-radius:50%; background:var(--il-bg-secondary); display:flex; align-items:center; justify-content:center; margin:0 auto 1.25rem;">
+        <i class="bi bi-check2-circle" style="font-size:1.8rem; color:var(--il-primary);"></i>
+    </div>
+    <p style="font-weight:600; margin-bottom:0.5rem;">No habits yet.</p>
+    <p style="color:var(--il-text-muted); font-size:0.875rem; margin-bottom:1.5rem;">Start building your daily routine!</p>
+    <a href="{% url 'habit_create' %}" class="btn-il-primary" style="text-decoration:none; padding:10px 24px;">
+        Create your first habit <i class="bi bi-arrow-right"></i>
+    </a>
 </div>
 {% endif %}
 {% endblock %}

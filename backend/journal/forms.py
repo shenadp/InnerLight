@@ -1,5 +1,6 @@
 from django import forms
 from .models import JournalEntry
+from accounts.widgets import ToggleWidget
 
 class JournalEntryForm(forms.ModelForm):
     title = forms.CharField(
@@ -16,14 +17,8 @@ class JournalEntryForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'placeholder': 'Add tags (comma separated)'}),
         help_text='e.g. gratitude, work, family'
     )
-    image = forms.ImageField(
-        required=False,
-        label='Attach Photo'
-    )
-    voice_note = forms.FileField(
-        required=False,
-        label='Voice Note'
-    )
+    image = forms.ImageField(required=False, label='Attach Photo')
+    voice_note = forms.FileField(required=False, label='Voice Note')
     prompt_category = forms.ChoiceField(
         choices=[('', '-- Select Prompt Category --')] + JournalEntry.PROMPT_CATEGORIES,
         required=False,
@@ -36,18 +31,13 @@ class JournalEntryForm(forms.ModelForm):
     )
     is_guided = forms.BooleanField(
         required=False,
-        label='Guided Entry?'
+        label='Guided Entry?',
+        widget=ToggleWidget()
     )
 
     class Meta:
         model = JournalEntry
         fields = [
-            'title',
-            'content',
-            'image',
-            'voice_note',
-            'tags',
-            'prompt_category',
-            'prompt_used',
-            'is_guided',
+            'title', 'content', 'image', 'voice_note',
+            'tags', 'prompt_category', 'prompt_used', 'is_guided',
         ]

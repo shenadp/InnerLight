@@ -3,117 +3,181 @@
 {% block title %}Home — InnerLight{% endblock %}
 
 {% block content %}
-<div class="row g-3">
+<div class="container-fluid px-0">
 
-    <!-- GREETING CARD -->
-    <div class="col-12">
-        <div class="greeting-card">
-            {% now "H" as current_hour %}
-            {% if current_hour < "12" %}
-                <div class="greeting-name">Good morning, {{ user.display_name|default:user.username }}! ☀️</div>
-            {% elif current_hour < "18" %}
-                <div class="greeting-name">Good afternoon, {{ user.display_name|default:user.username }}! 🌤️</div>
-            {% else %}
-                <div class="greeting-name">Good evening, {{ user.display_name|default:user.username }}! 🌙</div>
-            {% endif %}
-            <div class="greeting-intention">{{ user.wellness_intention|default:"Find calm within." }}</div>
-        </div>
-    </div>
-
-    <!-- DAILY AFFIRMATION -->
-    <div class="col-12">
-        <div class="il-card text-center">
-            <span class="text-il-muted" style="font-size:0.85rem;">✨ Today's Affirmation</span>
-            <p class="mb-0 mt-1" style="font-style:italic; color: var(--il-primary);">
-                {{ user.personal_affirmation|default:"You are enough." }}
-            </p>
-        </div>
-    </div>
-
-    <!-- QUICK ACCESS -->
-    <div class="col-12">
-        <div class="quick-access-grid">
-            <a href="{% url 'mood_checkin' %}" class="quick-btn">
-                <i class="bi bi-emoji-smile"></i>
-                <span>Check In</span>
-            </a>
-            <a href="{% url 'journal_create' %}" class="quick-btn">
-                <i class="bi bi-journal-richtext"></i>
-                <span>Journal</span>
-            </a>
-            <a href="{% url 'breathing' %}" class="quick-btn">
-                <i class="bi bi-wind"></i>
-                <span>Breathe</span>
-            </a>
-        </div>
-    </div>
-
-    <!-- STREAK & MOOD -->
-    <div class="col-6">
-        <div class="il-card text-center h-100 d-flex flex-column justify-content-center">
-            <div class="text-il-muted mb-2" style="font-size:0.9rem;">🔥 Streak</div>
-            {% if streak %}
-                <div class="streak-number">{{ streak.current_streak }}</div>
-                <div class="text-il-muted mt-1" style="font-size:0.85rem;">days</div>
-                {% if streak.current_streak >= 7 %}
-                <span class="il-badge-gold mt-2 d-inline-block">🏅 7 days!</span>
-                {% endif %}
-                {% if streak.current_streak >= 30 %}
-                <span class="il-badge-gold mt-2 d-inline-block">🏆 30 days!</span>
-                {% endif %}
-                {% if streak.current_streak >= 100 %}
-                <span class="il-badge-gold mt-2 d-inline-block">💎 100 days!</span>
-                {% endif %}
-            {% else %}
-                <div class="streak-number">—</div>
-                <div class="text-il-muted mt-1" style="font-size:0.85rem;">Start today!</div>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="col-6">
-        <div class="il-card text-center h-100 d-flex flex-column justify-content-center">
-            <div class="text-il-muted mb-2" style="font-size:0.9rem;">😊 Today's Mood</div>
-            {% if today_mood %}
-                <div style="font-size:2.5rem; line-height:1;">
-                    {% if today_mood.mood_score == 1 %}😞
-                    {% elif today_mood.mood_score == 2 %}😕
-                    {% elif today_mood.mood_score == 3 %}😐
-                    {% elif today_mood.mood_score == 4 %}🙂
-                    {% elif today_mood.mood_score == 5 %}😄
-                    {% endif %}
+    <div class="row g-4 mb-4">
+        <div class="col-lg-7">
+            <div class="card h-100 p-4 justify-content-center position-relative overflow-hidden" 
+                 style="border: 3.5px solid var(--il-border) !important; border-radius: 20px !important; background-color: var(--il-bg-card) !important;">
+                
+                <div class="position-absolute end-0 top-50 translate-middle-y me-4 opacity-1 d-none d-sm-block" style="color: var(--il-border);">
+                    <i class="bi bi-sun" style="font-size: 6rem;"></i>
                 </div>
-                <div class="text-il-muted mt-1" style="font-size:0.85rem;">{{ today_mood.emotion_tag }}</div>
-            {% else %}
-                <div class="streak-number">—</div>
-                <a href="{% url 'mood_checkin' %}" class="mt-1 d-block" style="font-size:0.85rem; color: var(--il-primary);">Log now →</a>
-            {% endif %}
-        </div>
-    </div>
 
-    <!-- TODAY'S HABITS -->
-    <div class="col-12">
-        <div class="il-card">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div class="il-card-title mb-0">✅ Today's Habits</div>
-                <a href="{% url 'habit_create' %}" style="font-size:0.8rem; color: var(--il-primary);">+ Add</a>
+                <div class="position-relative z-index-1">
+                    {% now "H" as current_hour %}
+                    <h2 class="font-weight-bolder mb-2" style="color: var(--il-text); font-size: 2rem; letter-spacing: -0.5px;">
+                        {% if current_hour < "12" %}Good morning,
+                        {% elif current_hour < "18" %}Good afternoon,
+                        {% else %}Good evening,{% endif %} 
+                        <span style="font-weight: 800;">{{ user.display_name|default:user.username }}!</span>
+                    </h2>
+                    <p class="mb-0 font-weight-semibold text-sm" style="color: var(--il-text-muted);">
+                        <i class="bi bi-quote"></i>{{ user.wellness_intention|default:'Find calm within.' }}
+                    </p>
+                </div>
             </div>
-            {% if habit_status %}
-                {% for item in habit_status %}
-                <div class="d-flex justify-content-between align-items-center py-2" style="border-bottom: 1px solid var(--il-border);">
-                    <span>{{ item.habit.icon }} {{ item.habit.name }}</span>
-                    {% if item.log %}
-                        <span class="il-badge">{{ item.log.get_completion_display }}</span>
-                    {% else %}
-                        <a href="{% url 'habit_log' item.habit.pk %}" class="il-badge" style="text-decoration:none;">Log</a>
-                    {% endif %}
-                </div>
-                {% endfor %}
-            {% else %}
-                <p class="text-il-muted mb-0" style="font-size:0.875rem;">No habits yet. <a href="{% url 'habit_create' %}" style="color: var(--il-primary);">Create one →</a></p>
-            {% endif %}
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card h-100 p-4 text-center justify-content-center" 
+                 style="border: 3.5px solid var(--il-border) !important; border-radius: 20px !important; background-color: var(--il-bg-secondary) !important;">
+                <span class="text-xs font-weight-bold text-uppercase tracking-wider mb-2 d-block" style="color: var(--il-text-muted); letter-spacing: 0.5px;">
+                    <i class="bi bi-stars me-1"></i> Today's Affirmation
+                </span>
+                <p class="h5 font-weight-bold mb-0 px-1" style="color: var(--il-text); line-height: 1.5;">
+                    "{{ user.personal_affirmation|default:'You are enough.' }}"
+                </p>
+            </div>
         </div>
     </div>
 
+    <div class="row g-4">
+        
+        <div class="col-lg-5 d-flex flex-column gap-4">
+            
+            <div>
+                <h6 class="font-weight-bold text-uppercase text-xs mb-3 ps-1" style="color: var(--il-text-muted); letter-spacing: 0.5px;">
+                    Quick Actions
+                </h6>
+                <div class="row g-3">
+                    <div class="col-4">
+                        <a href="{% url 'mood_checkin' %}" class="card text-center p-3 text-decoration-none h-100 flat-bento-btn"
+                           style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                            <div class="d-flex align-items-center justify-content-center mx-auto mb-2" 
+                                 style="width: 50px; height: 50px; background-color: var(--il-text-muted); border-radius: 12px;">
+                                <i class="bi bi-emoji-smile text-white fs-4"></i>
+                            </div>
+                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text);">Check In</span>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="{% url 'journal_create' %}" class="card text-center p-3 text-decoration-none h-100 flat-bento-btn"
+                           style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                            <div class="d-flex align-items-center justify-content-center mx-auto mb-2" 
+                                 style="width: 50px; height: 50px; background-color: var(--il-text-muted); border-radius: 12px;">
+                                <i class="bi bi-journal-text text-white fs-4"></i>
+                            </div>
+                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text);">Journal</span>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="{% url 'breathing' %}" class="card text-center p-3 text-decoration-none h-100 flat-bento-btn"
+                           style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                            <div class="d-flex align-items-center justify-content-center mx-auto mb-2" 
+                                 style="width: 50px; height: 50px; background-color: var(--il-text-muted); border-radius: 12px;">
+                                <i class="bi bi-wind text-white fs-4"></i>
+                            </div>
+                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text);">Breathe</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h6 class="font-weight-bold text-uppercase text-xs mb-3 ps-1" style="color: var(--il-text-muted); letter-spacing: 0.5px;">
+                    Daily Status Overview
+                </h6>
+                <div class="row g-3">
+                    <div class="col-6">
+                        <div class="card p-3 text-center" style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                            <span class="text-xs font-weight-bold text-uppercase d-block mb-1" style="color: var(--il-text-muted);">
+                                <i class="bi bi-fire text-danger me-1"></i> Streak
+                            </span>
+                            {% if streak %}
+                                <h2 class="font-weight-bolder my-1" style="color: var(--il-text); font-weight: 800 !important;">{{ streak.current_streak }}</h2>
+                                <p class="text-xs mb-0 font-weight-bold" style="color: var(--il-text-muted);">days active</p>
+                            {% else %}
+                                <h2 class="font-weight-bolder my-1" style="color: var(--il-text-muted); font-weight: 800 !important;">0</h2>
+                                <p class="text-xs mb-0 font-weight-bold" style="color: var(--il-text-muted);">Start today!</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card p-3 text-center" style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                            <span class="text-xs font-weight-bold text-uppercase d-block mb-1" style="color: var(--il-text-muted);">
+                                <i class="bi bi-heart-fill text-danger me-1"></i> Mood
+                            </span>
+                            {% if today_mood %}
+                                <h2 class="font-weight-bolder my-1" style="color: var(--il-text); font-weight: 800 !important;">
+                                    {% if today_mood.mood_score == 4 %}😊{% else %}😐{% endif %}
+                                </h2>
+                                <span class="text-xs font-weight-bold text-uppercase" style="color: var(--il-text-muted);">{{ today_mood.emotion_tag }}</span>
+                            {% else %}
+                                <h2 class="font-weight-bolder my-1" style="color: var(--il-text-muted); font-weight: 800 !important;">—</h2>
+                                <a href="{% url 'mood_checkin' %}" class="text-xs font-weight-bold text-decoration-underline" style="color: var(--il-text);">Log now <i class="bi bi-arrow-right"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-lg-7">
+            <h6 class="font-weight-bold text-uppercase text-xs mb-3 ps-1" style="color: var(--il-text-muted); letter-spacing: 0.5px;">
+                Routines & Rituals
+            </h6>
+            <div class="card p-4 h-100 d-flex flex-column" style="border: 3.5px solid var(--il-border) !important; border-radius: 20px !important;">
+                
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="h6 font-weight-bold mb-0" style="color: var(--il-text); font-weight: 700 !important;">
+                        <i class="bi bi-check2-circle me-2" style="color: var(--il-text-muted);"></i>Today's Habits
+                    </div>
+                    <a href="{% url 'habit_create' %}" class="btn btn-sm mb-0 px-3 py-1 font-weight-bold" 
+                       style="border: 2.5px solid var(--il-border) !important; border-radius: 99px; background: var(--il-bg-secondary); color: var(--il-text); font-weight: 700 !important;">
+                        + Add
+                    </a>
+                </div>
+
+                <div class="habit-list-wrapper flex-grow-1">
+                    {% if habit_status %}
+                        {% for item in habit_status %}
+                        <div class="d-flex justify-content-between align-items-center py-3" style="border-bottom: 2.5px solid var(--il-border);">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3" style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--il-primary);"></div>
+                                <span class="font-weight-bold text-sm" style="color: var(--il-text); font-weight: 600 !important;">{{ item.habit.name }}</span>
+                            </div>
+                            {% if item.log %}
+                                <span class="badge px-3 py-2 text-xs font-weight-bold text-white" style="background-color: var(--il-primary) !important; border-radius: 10px; font-weight: 700 !important;">{{ item.log.get_completion_display }}</span>
+                            {% else %}
+                                <a href="{% url 'habit_log' item.habit.pk %}" class="btn btn-link text-xs font-weight-bold mb-0 p-0 text-decoration-underline" style="color: var(--il-text); font-weight: 700 !important;">Log Task</a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-5 my-auto">
+                            <i class="bi bi-clipboard-check display-4 d-block mb-3" style="color: var(--il-text-muted);"></i>
+                            <p class="text-sm font-weight-bold mb-2" style="color: var(--il-text-muted); font-weight: 600 !important;">No active habits for today.</p>
+                            <a href="{% url 'habit_create' %}" class="text-xs font-weight-bold text-decoration-underline" style="color: var(--il-text); font-weight: 700 !important;">Build a new routine <i class="bi bi-arrow-right"></i></a>
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 </div>
+
+<style>
+    .flat-bento-btn {
+        transition: transform 0.1s ease;
+        background-color: var(--il-bg-card) !important;
+    }
+    .flat-bento-btn:hover {
+        transform: translateY(-2px);
+        border-color: var(--il-text-muted) !important;
+    }
+</style>
 {% endblock %}

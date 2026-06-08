@@ -4,30 +4,40 @@
 
 {% block content %}
 <div class="mb-4">
-    <h1 style="font-size: 1.5rem; font-weight: 600;">Achievements</h1>
-    <p style="color: var(--il-text-muted); font-size: 0.9rem; font-weight: 300;">Milestones on your wellness journey.</p>
+    <h1 style="font-size:1.5rem; font-weight:700;">
+        <i class="bi bi-trophy" style="color:var(--il-primary);"></i> Achievements
+    </h1>
+    <p style="color:var(--il-text-muted); font-size:0.9rem;">Milestones on your wellness journey.</p>
 </div>
 
-<div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+<div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:12px;">
     {% for achievement in all_achievements %}
-    <div class="il-card {% if achievement.pk in unlocked %}{% else %}{% endif %}" style="margin-bottom: 0; text-align: center; opacity: {% if achievement.pk in unlocked %}1{% else %}0.5{% endif %};">
-        <div style="font-size: 2rem; margin-bottom: 0.5rem;">{{ achievement.icon }}</div>
-        <p style="font-weight: 600; font-size: 0.9rem; margin-bottom: 4px;">{{ achievement.name }}</p>
-        <p style="font-size: 0.78rem; color: var(--il-text-muted); margin-bottom: 0.75rem;">{{ achievement.description }}</p>
+    <div class="il-card" style="margin-bottom:0; text-align:center; opacity:{% if achievement.pk in unlocked %}1{% else %}0.45{% endif %};">
+        <div style="width:52px; height:52px; border-radius:50%; background:var(--il-bg-secondary); border:1px solid var(--il-border); display:flex; align-items:center; justify-content:center; margin:0 auto 0.75rem;">
+            <i class="bi bi-trophy" style="font-size:1.4rem; color:{% if achievement.pk in unlocked %}#C9A84C{% else %}var(--il-text-muted){% endif %};"></i>
+        </div>
+        <p style="font-weight:700; font-size:0.9rem; margin-bottom:4px;">{{ achievement.name }}</p>
+        <p style="font-size:0.78rem; color:var(--il-text-muted); margin-bottom:0.75rem;">{{ achievement.description }}</p>
         {% if achievement.pk in unlocked %}
-        <span class="il-badge" style="font-size: 0.72rem;">✅ Unlocked</span>
+        <span class="il-badge" style="font-size:0.72rem;">
+            <i class="bi bi-check2-circle"></i> Unlocked
+        </span>
         {% else %}
-        <span style="font-size: 0.78rem; color: var(--il-text-muted);">🔒 Locked</span>
+        <span style="font-size:0.78rem; color:var(--il-text-muted);">
+            <i class="bi bi-lock"></i> Locked
+        </span>
         {% endif %}
     </div>
     {% empty %}
-    <div class="col-span-2">
-        <p style="color: var(--il-text-muted); font-size: 0.875rem;">No achievements available yet.</p>
+    <div style="grid-column:span 2;">
+        <p style="color:var(--il-text-muted); font-size:0.875rem;">No achievements available yet.</p>
     </div>
     {% endfor %}
 </div>
 
 <div class="mt-4">
-    <a href="{% url 'progress' %}" class="btn-il-secondary" style="text-decoration: none; padding: 10px 24px;">← Back</a>
+    <a href="{% url 'progress' %}" class="btn-il-secondary" style="text-decoration:none; padding:10px 24px;">
+        <i class="bi bi-arrow-left"></i> Back
+    </a>
 </div>
 {% endblock %}
