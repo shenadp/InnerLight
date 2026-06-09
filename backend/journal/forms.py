@@ -1,32 +1,44 @@
 from django import forms
 from .models import JournalEntry
-from accounts.widgets import ToggleWidget
+from accounts.widgets import (
+    ToggleWidget, StyledTextInput, StyledTextarea,
+    StyledSelect, StyledFileInput
+)
 
 class JournalEntryForm(forms.ModelForm):
     title = forms.CharField(
         max_length=255,
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'Title (optional)'}),
+        widget=StyledTextInput(attrs={'placeholder': 'Title (optional)'}),
     )
     content = forms.CharField(
-        widget=forms.Textarea(attrs={'placeholder': 'Write your thoughts here...', 'rows': 10}),
+        widget=StyledTextarea(attrs={'placeholder': 'Write your thoughts here...', 'rows': 10}),
         required=False,
     )
     tags = forms.CharField(
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'Add tags (comma separated)'}),
+        widget=StyledTextInput(attrs={'placeholder': 'Add tags (comma separated)'}),
         help_text='e.g. gratitude, work, family'
     )
-    image = forms.ImageField(required=False, label='Attach Photo')
-    voice_note = forms.FileField(required=False, label='Voice Note')
+    image = forms.ImageField(
+        required=False,
+        label='Attach Photo',
+        widget=StyledFileInput()
+    )
+    voice_note = forms.FileField(
+        required=False,
+        label='Voice Note',
+        widget=StyledFileInput()
+    )
     prompt_category = forms.ChoiceField(
         choices=[('', '-- Select Prompt Category --')] + JournalEntry.PROMPT_CATEGORIES,
         required=False,
-        label='Guided Prompt Category'
+        label='Guided Prompt Category',
+        widget=StyledSelect()
     )
     prompt_used = forms.CharField(
         required=False,
-        widget=forms.Textarea(attrs={'placeholder': 'Prompt used...', 'rows': 3}),
+        widget=StyledTextarea(attrs={'placeholder': 'Prompt used...', 'rows': 3}),
         label='Prompt'
     )
     is_guided = forms.BooleanField(

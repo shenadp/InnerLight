@@ -1,6 +1,6 @@
 from django import forms
 from .models import NotificationSchedule, DoNotDisturb
-from accounts.widgets import ToggleWidget, StyledTimeInput
+from accounts.widgets import ToggleWidget, StyledTimeInput, StyledSelect
 
 class NotificationScheduleForm(forms.ModelForm):
     scheduled_time = forms.TimeField(
@@ -16,6 +16,9 @@ class NotificationScheduleForm(forms.ModelForm):
     class Meta:
         model = NotificationSchedule
         fields = ['notif_type', 'scheduled_time', 'is_active']
+        widgets = {
+            'notif_type': StyledSelect(),
+        }
 
 
 class DoNotDisturbForm(forms.ModelForm):

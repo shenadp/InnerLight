@@ -1,6 +1,6 @@
 from django import forms
 from .models import WeeklyReport, UserAchievement
-from accounts.widgets import ToggleWidget, StyledDateInput
+from accounts.widgets import ToggleWidget, StyledDateInput, StyledTextarea
 
 class WeeklyReportForm(forms.ModelForm):
     week_start = forms.DateField(
@@ -13,7 +13,7 @@ class WeeklyReportForm(forms.ModelForm):
     )
     reflection_prompt = forms.CharField(
         required=False,
-        widget=forms.Textarea(attrs={'placeholder': 'Your reflection for the week...', 'rows': 4}),
+        widget=StyledTextarea(attrs={'placeholder': 'Your reflection for the week...', 'rows': 4}),
         label='Reflection'
     )
 

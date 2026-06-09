@@ -103,8 +103,9 @@
 
     {% if user.is_authenticated %}
     <nav class="il-navbar d-flex justify-content-between align-items-center">
-        <a href="{% url 'dashboard' %}" class="brand text-decoration-none" style="font-weight: 800; color: var(--il-text); font-size: 1.25rem;">
-            🌟 InnerLight
+        <a href="{% url 'dashboard' %}" class="brand text-decoration-none d-flex align-items-center gap-2" style="font-weight: 800; color: var(--il-text); font-size: 1.25rem;">
+            <img src="{% static 'img/innerlight/il_logo.png' %}" alt="InnerLight" style="height:28px; width:auto;">
+            InnerLight
         </a>
         <div class="nav-user d-flex align-items-center gap-3">
             <span class="text-il-muted d-none d-sm-inline font-weight-bold" style="color: var(--il-text-muted);">{{ user.display_name|default:user.username }}</span>

@@ -1,21 +1,29 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
-from accounts.widgets import ToggleWidget, StyledTimeInput
+from accounts.widgets import (
+    ToggleWidget, StyledTimeInput, StyledTextInput, 
+    StyledTextarea, StyledNumberInput, StyledSelect, StyledFileInput
+)
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
-    display_name = forms.CharField(max_length=100, required=False)
-    wellness_intention = forms.CharField(
-        max_length=255, 
+    display_name = forms.CharField(
+        max_length=100,
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'What do you want to feel?'})
+        widget=StyledTextInput(attrs={'placeholder': 'Display Name'})
+    )
+    wellness_intention = forms.CharField(
+        max_length=255,
+        required=False,
+        widget=StyledTextInput(attrs={'placeholder': 'What do you want to feel?'})
     )
     mood_baseline = forms.IntegerField(
-        min_value=1, 
-        max_value=5, 
+        min_value=1,
+        max_value=5,
         required=False,
-        help_text='Your current mood baseline (1-5)'
+        help_text='Your current mood baseline (1-5)',
+        widget=StyledNumberInput()
     )
 
     class Meta:
@@ -24,8 +32,12 @@ class RegisterForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Username'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password'}))
+    username = forms.CharField(
+        widget=StyledTextInput(attrs={'placeholder': 'Username'})
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class': 'form-control'})
+    )
 
 
 class UserProfileForm(forms.ModelForm):
@@ -62,6 +74,11 @@ class UserProfileForm(forms.ModelForm):
             'private_mode': 'Private Mode',
         }
         widgets = {
+            'display_name': StyledTextInput(attrs={'placeholder': 'Your display name'}),
+            'personal_affirmation': StyledTextarea(attrs={'placeholder': 'Write your personal affirmation...', 'rows': 3}),
+            'wellness_intention': StyledTextInput(attrs={'placeholder': 'What do you want to feel?'}),
+            'theme': StyledSelect(),
+            'avatar': StyledFileInput(),
             'notif_morning_checkin': ToggleWidget(),
             'notif_journal_nudge': ToggleWidget(),
             'notif_streak_warning': ToggleWidget(),

@@ -1,6 +1,9 @@
 from django import forms
 from .models import Habit, HabitLog
-from accounts.widgets import ToggleWidget, StyledTimeInput
+from accounts.widgets import (
+    ToggleWidget, StyledTimeInput, StyledTextInput,
+    StyledNumberInput, StyledSelect
+)
 
 class HabitForm(forms.ModelForm):
     custom_days = forms.MultipleChoiceField(
@@ -14,7 +17,7 @@ class HabitForm(forms.ModelForm):
             ('Sun', 'Sunday'),
         ],
         required=False,
-        widget=forms.CheckboxSelectMultiple,
+        widget=forms.CheckboxSelectMultiple(),
         label='Custom Days (if frequency is Custom)'
     )
     reminder_time = forms.TimeField(
@@ -25,12 +28,14 @@ class HabitForm(forms.ModelForm):
     goal_duration = forms.IntegerField(
         required=False,
         min_value=1,
-        label='Goal Duration (minutes)'
+        label='Goal Duration (minutes)',
+        widget=StyledNumberInput(attrs={'placeholder': 'e.g. 30'})
     )
     goal_count = forms.IntegerField(
         required=False,
         min_value=1,
-        label='Goal Count'
+        label='Goal Count',
+        widget=StyledNumberInput(attrs={'placeholder': 'e.g. 5'})
     )
 
     class Meta:
@@ -46,16 +51,26 @@ class HabitForm(forms.ModelForm):
             'goal_duration',
             'goal_count',
         ]
+        widgets = {
+            'name': StyledTextInput(attrs={'placeholder': 'Habit name'}),
+            'icon': StyledTextInput(attrs={'placeholder': 'e.g. 💧'}),
+            'color': StyledTextInput(attrs={'type': 'color'}),
+            'frequency': StyledSelect(),
+            'category': StyledSelect(),
+        }
 
 
 class HabitLogForm(forms.ModelForm):
     note = forms.CharField(
         max_length=255,
         required=False,
-        widget=forms.TextInput(attrs={'placeholder': 'Quick note...'}),
+        widget=StyledTextInput(attrs={'placeholder': 'Quick note...'}),
         label='Note (optional)'
     )
 
     class Meta:
         model = HabitLog
         fields = ['completion', 'note']
+        widgets = {
+            'completion': StyledSelect(),
+        }
