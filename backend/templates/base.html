@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}InnerLight{% endblock %}</title>
+    <link rel="icon" type="image/png" href="{% static 'img/innerlight/il_logo.png' %}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -97,6 +98,13 @@
             color: #F4F6F0 !important;
         }
     </style>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/service-worker.js');
+        }
+    </script>
+
     {% block extra_css %}{% endblock %}
 </head>
 <body>
