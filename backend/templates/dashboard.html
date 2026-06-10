@@ -14,15 +14,17 @@
                     <i class="bi bi-sun" style="font-size: 6rem;"></i>
                 </div>
 
-                <div class="position-relative z-index-1">
+                <div class="position-relative">
                     {% now "H" as current_hour %}
-                    <h2 class="font-weight-bolder mb-2" style="color: var(--il-text); font-size: 2rem; letter-spacing: -0.5px;">
-                        {% if current_hour < "12" %}Good morning,
-                        {% elif current_hour < "18" %}Good afternoon,
-                        {% else %}Good evening,{% endif %} 
-                        <span style="font-weight: 800;">{{ user.display_name|default:user.username }}!</span>
+                    <p class="mb-1" style="font-size:1rem; font-weight:700; color:var(--il-text-muted); text-transform:uppercase; letter-spacing:0.5px; margin:0 0 2px;">
+                        {% if current_hour < "12" %}<i class="bi bi-sunrise" style="color:#E0A030;"></i> Good morning
+                        {% elif current_hour < "18" %}<i class="bi bi-sun" style="color:#E0A030;"></i> Good afternoon
+                        {% else %}<i class="bi bi-moon-stars" style="color:var(--il-primary);"></i> Good evening{% endif %}
+                    </p>
+                    <h2 style="color: var(--il-text); font-size: 1.50rem; font-weight: 800; letter-spacing: -0.3px; margin:0; padding-left: 23px;">
+                        {{ user.display_name|default:user.username }}!
                     </h2>
-                    <p class="mb-0 font-weight-semibold text-sm" style="color: var(--il-text-muted);">
+                    <p style="font-size:1rem; color:var(--il-text-muted); margin:4px 0 0;">
                         <i class="bi bi-quote"></i>{{ user.wellness_intention|default:'Find calm within.' }}
                     </p>
                 </div>
@@ -35,9 +37,10 @@
                 <span class="text-xs font-weight-bold text-uppercase tracking-wider mb-2 d-block" style="color: var(--il-text-muted); letter-spacing: 0.5px;">
                     <i class="bi bi-stars me-1"></i> Today's Affirmation
                 </span>
-                <p class="h5 font-weight-bold mb-0 px-1" style="color: var(--il-text); line-height: 1.5;">
-                    "{{ user.personal_affirmation|default:'You are enough.' }}"
+                <p style="font-size:1.1rem; font-style:italic; font-weight:300; color:var(--il-text); line-height:1.6; margin:0 0 8px;">
+                    "{{ quote.text }}"
                 </p>
+                <p style="font-size:0.8rem; color:var(--il-text-muted); margin:0;">— {{ quote.author }}</p>
             </div>
         </div>
     </div>
@@ -52,33 +55,53 @@
                 </h6>
                 <div class="row g-3">
                     <div class="col-4">
-                        <a href="{% url 'mood_checkin' %}" class="card text-center p-3 text-decoration-none h-100 flat-bento-btn"
-                           style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                        <a href="{% url 'mood_checkin' %}" class="card text-center p-2 text-decoration-none h-99 flat-bento-btn"
+                        style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
                             <div class="d-flex align-items-center justify-content-center mx-auto mb-2" 
-                                 style="width: 50px; height: 50px; background-color: var(--il-text-muted); border-radius: 12px;">
+                                style="width: 45px; height: 45px; background-color: var(--il-text-light); border-radius: 12px;">
                                 <i class="bi bi-emoji-smile text-white fs-4"></i>
                             </div>
-                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text);">Check In</span>
+                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text-muted);">Check In</span>
                         </a>
                     </div>
                     <div class="col-4">
-                        <a href="{% url 'journal_create' %}" class="card text-center p-3 text-decoration-none h-100 flat-bento-btn"
-                           style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                        <a href="{% url 'journal_create' %}" class="card text-center p-2 text-decoration-none h-99 flat-bento-btn"
+                        style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
                             <div class="d-flex align-items-center justify-content-center mx-auto mb-2" 
-                                 style="width: 50px; height: 50px; background-color: var(--il-text-muted); border-radius: 12px;">
+                                style="width: 45px; height: 45px; background-color: var(--il-text-light); border-radius: 12px;">
                                 <i class="bi bi-journal-text text-white fs-4"></i>
                             </div>
-                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text);">Journal</span>
+                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text-muted);">Journal</span>
                         </a>
                     </div>
                     <div class="col-4">
-                        <a href="{% url 'breathing' %}" class="card text-center p-3 text-decoration-none h-100 flat-bento-btn"
-                           style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                        <a href="{% url 'breathing' %}" class="card text-center p-2 text-decoration-none h-99 flat-bento-btn"
+                        style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
                             <div class="d-flex align-items-center justify-content-center mx-auto mb-2" 
-                                 style="width: 50px; height: 50px; background-color: var(--il-text-muted); border-radius: 12px;">
+                                style="width: 45px; height: 45px; background-color: var(--il-text-light); border-radius: 12px;">
                                 <i class="bi bi-wind text-white fs-4"></i>
                             </div>
-                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text);">Breathe</span>
+                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text-muted);">Breathe</span>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="{% url 'mood_insights' %}" class="card text-center p-2 text-decoration-none h-99 flat-bento-btn"
+                        style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                            <div class="d-flex align-items-center justify-content-center mx-auto mb-2" 
+                                style="width: 45px; height: 45px; background-color: var(--il-text-light); border-radius: 12px;">
+                                <i class="bi bi-graph-up text-white fs-4"></i>
+                            </div>
+                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text-muted);">Insights</span>
+                        </a>
+                    </div>
+                    <div class="col-4">
+                        <a href="{% url 'mood_history' %}" class="card text-center p-2 text-decoration-none h-99 flat-bento-btn"
+                        style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                            <div class="d-flex align-items-center justify-content-center mx-auto mb-2" 
+                                style="width: 45px; height: 45px; background-color: var(--il-text-light); border-radius: 12px;">
+                                <i class="bi bi-clock-history text-white fs-4"></i>
+                            </div>
+                            <span class="text-xs font-weight-bold d-block" style="color: var(--il-text-muted);">Mood Log</span>
                         </a>
                     </div>
                 </div>
@@ -90,7 +113,7 @@
                 </h6>
                 <div class="row g-3">
                     <div class="col-6">
-                        <div class="card p-3 text-center" style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                        <div class="card p-2  text-center" style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
                             <span class="text-xs font-weight-bold text-uppercase d-block mb-1" style="color: var(--il-text-muted);">
                                 <i class="bi bi-fire text-danger me-1"></i> Streak
                             </span>
@@ -104,13 +127,23 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="card p-3 text-center" style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
+                        <div class="card p-2 text-center" style="border: 3.5px solid var(--il-border) !important; border-radius: 16px !important;">
                             <span class="text-xs font-weight-bold text-uppercase d-block mb-1" style="color: var(--il-text-muted);">
                                 <i class="bi bi-heart-fill text-danger me-1"></i> Mood
                             </span>
                             {% if today_mood %}
                                 <h2 class="font-weight-bolder my-1" style="color: var(--il-text); font-weight: 800 !important;">
-                                    {% if today_mood.mood_score == 4 %}😊{% else %}😐{% endif %}
+                                    {% if today_mood.mood_score == 5 %}
+                                        <i class="bi bi-emoji-laughing-fill" style="color: #C9A84C;"></i>
+                                    {% elif today_mood.mood_score == 4 %}
+                                        <i class="bi bi-emoji-smile-fill" style="color: var(--il-primary);"></i>
+                                    {% elif today_mood.mood_score == 3 %}
+                                        <i class="bi bi-emoji-neutral-fill" style="color: #6A9AB0;"></i>
+                                    {% elif today_mood.mood_score == 2 %}
+                                        <i class="bi bi-emoji-frown-fill" style="color: #D4A8A2;"></i>
+                                    {% else %}
+                                        <i class="bi bi-emoji-angry-fill" style="color: var(--il-danger);"></i>
+                                    {% endif %}
                                 </h2>
                                 <span class="text-xs font-weight-bold text-uppercase" style="color: var(--il-text-muted);">{{ today_mood.emotion_tag }}</span>
                             {% else %}
@@ -128,15 +161,14 @@
             <h6 class="font-weight-bold text-uppercase text-xs mb-3 ps-1" style="color: var(--il-text-muted); letter-spacing: 0.5px;">
                 Routines & Rituals
             </h6>
-            <div class="card p-4 h-100 d-flex flex-column" style="border: 3.5px solid var(--il-border) !important; border-radius: 20px !important;">
+            <div class="card p-4 h-99 d-flex flex-column" style="border: 3.5px solid var(--il-border) !important; border-radius: 20px !important;">
                 
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <div class="h6 font-weight-bold mb-0" style="color: var(--il-text); font-weight: 700 !important;">
                         <i class="bi bi-check2-circle me-2" style="color: var(--il-text-muted);"></i>Today's Habits
                     </div>
-                    <a href="{% url 'habit_create' %}" class="btn btn-sm mb-0 px-3 py-1 font-weight-bold" 
-                       style="border: 2.5px solid var(--il-border) !important; border-radius: 99px; background: var(--il-bg-secondary); color: var(--il-text); font-weight: 700 !important;">
-                        + Add
+                    <a href="{% url 'habit_create' %}" class="btn-il-primary" style="text-decoration:none; padding:10px 20px; font-size:0.85rem;">
+                        <i class="bi bi-plus"></i> Add
                     </a>
                 </div>
 
@@ -146,12 +178,12 @@
                         <div class="d-flex justify-content-between align-items-center py-3" style="border-bottom: 2.5px solid var(--il-border);">
                             <div class="d-flex align-items-center">
                                 <div class="me-3" style="width: 8px; height: 8px; border-radius: 50%; background-color: var(--il-primary);"></div>
-                                <span class="font-weight-bold text-sm" style="color: var(--il-text); font-weight: 600 !important;">{{ item.habit.name }}</span>
+                                <span class="font-weight-bold text-sm" style="color: #4a5568; font-weight: 600 !important;">{{ item.habit.name }}</span>
                             </div>
                             {% if item.log %}
                                 <span class="badge px-3 py-2 text-xs font-weight-bold text-white" style="background-color: var(--il-primary) !important; border-radius: 10px; font-weight: 700 !important;">{{ item.log.get_completion_display }}</span>
                             {% else %}
-                                <a href="{% url 'habit_log' item.habit.pk %}" class="btn btn-link text-xs font-weight-bold mb-0 p-0 text-decoration-underline" style="color: var(--il-text); font-weight: 700 !important;">Log Task</a>
+                                <a href="{% url 'habit_log' item.habit.pk %}" class="btn btn-link text-xs font-weight-bold mb-0 p-0 text-decoration-underline" style="color: var(--il-text-muted); font-weight: 700 !important;">Log Task</a>
                             {% endif %}
                         </div>
                         {% endfor %}

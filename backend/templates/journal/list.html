@@ -16,7 +16,12 @@
 <form method="GET" class="mb-4">
     <div class="d-flex gap-2">
         <input type="text" name="q" value="{{ query }}" placeholder="Search entries..." class="form-control" style="flex:1;">
-        <input type="text" name="tag" value="{{ tag }}" placeholder="Filter by tag..." class="form-control" style="flex:1;">
+        <select name="tag" class="form-control" style="flex:1;">
+            <option value="">All tags</option>
+            {% for t in all_tags %}
+            <option value="{{ t }}" {% if tag == t %}selected{% endif %}>{{ t }}</option>
+            {% endfor %}
+        </select>
         <button type="submit" class="btn-il-secondary" style="padding:10px 20px; white-space:nowrap;">
             <i class="bi bi-search"></i>
         </button>

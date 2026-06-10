@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import BreathingSession, AmbientSound, Affirmation
 from .forms import BreathingSessionForm, AffirmationForm
+from accounts.utils import get_daily_quote
 import random
 
 @login_required
@@ -36,9 +37,7 @@ def ambient_view(request):
 
 @login_required
 def affirmation_view(request):
-    # Morning affirmation card — random daily affirmation
-    affirmations = Affirmation.objects.filter(is_default=True)
-    daily = random.choice(affirmations) if affirmations.exists() else None
+    daily = get_daily_quote()
     user_affirmations = Affirmation.objects.filter(user=request.user)
     favorites = user_affirmations.filter(is_favorite=True)
 

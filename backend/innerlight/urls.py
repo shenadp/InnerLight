@@ -23,11 +23,12 @@ from django.shortcuts import redirect
 def root_redirect(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
-    return redirect('login')
+    return redirect('account_login')
 
 urlpatterns = [
     path('', root_redirect, name='root'), 
     path('admin/', admin.site.urls),
+    path('accounts/', include('allauth.urls')),
     path('accounts/', include('accounts.urls')),
     path('mood/', include('moodtracker.urls')),
     path('habits/', include('habittracker.urls')),

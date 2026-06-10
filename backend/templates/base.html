@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" data-theme="{{ user.theme|default:'light' }}">
+<html lang="en" data-theme="{{ request.user.theme|default:'dark' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,13 +113,13 @@
             <a href="{% url 'notification_settings' %}" class="text-secondary"><i class="bi bi-bell fs-5"></i></a>
             <button class="theme-toggle btn btn-sm mb-0 px-3 py-1 font-weight-bold" id="themeToggle" 
                 style="border: 2px solid var(--il-border); border-radius: 99px; background: transparent; color: var(--il-text); transform: none !important;">
-                {% if user.theme == 'dark' %}
+                {% if request.user.theme == 'dark' %}
                     <i class="bi bi-sun"></i> Light
                 {% else %}
                     <i class="bi bi-moon"></i> Dark
                 {% endif %}
 </button>
-            <a href="{% url 'logout' %}" class="text-secondary"><i class="bi bi-box-arrow-right fs-5"></i></a>
+            <a href="{% url 'account_logout' %}" class="text-secondary"><i class="bi bi-box-arrow-right fs-5"></i></a>
         </div>
     </nav>
     {% endif %}
@@ -169,7 +169,6 @@
     <script src="{% static 'js/plugins/smooth-scrollbar.min.js' %}"></script>
     <script src="{% static 'js/soft-ui-dashboard.min.js' %}?v=1.0.7"></script>
 
-    <script src="{% static 'static_user/js/theme.js' %}"></script>
     <script src="{% static 'static_user/js/main.js' %}"></script>
     <script src="{% static 'static_user/js/app.js' %}"></script>
 

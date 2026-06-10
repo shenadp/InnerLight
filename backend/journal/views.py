@@ -10,11 +10,33 @@ def journal_list_view(request):
     query = request.GET.get('q', '')
     tag = request.GET.get('tag', '')
     entries = JournalEntry.objects.filter(user=request.user).order_by('-created_at')
+
     if query:
-        entries = entries.filter(content__icontains=query)
+        entries = entries.filter(
+            content__icontains=query
+        ) | entries.filter(
+            title__icontains=query
+        )
+        entries = entries.filter(user=request.user).order_by('-created_at')
+
     if tag:
-        entries = entries.filter(tags__icontains=tag)
-    return render(request, 'journal/list.html', {'entries': entries, 'query': query, 'tag': tag})
+        entries = entries.filter(tags__icontains=tag.lower().strip())
+
+    # Kuhanin lahat ng unique tags ng user
+    all_entries = JournalEntry.objects.filter(user=request.user)
+    all_tags = set()
+    for entry in all_entries:
+        if entry.tags:
+            for t in entry.tags:
+                all_tags.add(t)
+    all_tags = sorted(all_tags)
+
+    return render(request, 'journal/list.html', {
+        'entries': entries,
+        'query': query,
+        'tag': tag,
+        'all_tags': all_tags,
+    })
 
 @login_required
 def journal_create_view(request):

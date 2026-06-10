@@ -1,15 +1,16 @@
+from django.utils.safestring import mark_safe
 from django.forms.widgets import CheckboxInput, TimeInput, DateInput
 from django.forms.widgets import Textarea, TextInput, NumberInput, Select, FileInput
 
 class ToggleWidget(CheckboxInput):
     def render(self, name, value, attrs=None, renderer=None):
         checkbox_html = super().render(name, value, attrs, renderer)
-        return f'''
+        return mark_safe(f'''
         <label class="il-toggle">
             {checkbox_html}
             <span class="il-toggle-slider"></span>
         </label>
-        '''
+        ''')
 
 class StyledTimeInput(TimeInput):
     def __init__(self, *args, **kwargs):

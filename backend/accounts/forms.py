@@ -7,7 +7,10 @@ from accounts.widgets import (
 )
 
 class RegisterForm(UserCreationForm):
-    email = forms.EmailField(required=True)
+    email = forms.EmailField(
+        required=True,
+        widget=StyledTextInput(attrs={'placeholder': 'Email address'})
+    )
     display_name = forms.CharField(
         max_length=100,
         required=False,
@@ -23,12 +26,26 @@ class RegisterForm(UserCreationForm):
         max_value=5,
         required=False,
         help_text='Your current mood baseline (1-5)',
-        widget=StyledNumberInput()
+        widget=StyledNumberInput(attrs={'placeholder': '1-5'})
     )
 
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'display_name', 'wellness_intention', 'mood_baseline', 'password1', 'password2']
+        widgets = {
+            'username': StyledTextInput(attrs={'placeholder': 'Username'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].widget = forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Password'
+        })
+        self.fields['password2'].widget = forms.PasswordInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Confirm Password'
+        })
 
 
 class LoginForm(AuthenticationForm):
@@ -55,8 +72,6 @@ class UserProfileForm(forms.ModelForm):
             'notif_motivational',
             'dnd_start',
             'dnd_end',
-            'biometric_lock',
-            'private_mode',
         ]
         labels = {
             'display_name': 'Display Name',
@@ -85,6 +100,4 @@ class UserProfileForm(forms.ModelForm):
             'notif_motivational': ToggleWidget(),
             'dnd_start': StyledTimeInput(attrs={'type': 'time'}),
             'dnd_end': StyledTimeInput(attrs={'type': 'time'}),
-            'biometric_lock': ToggleWidget(),
-            'private_mode': ToggleWidget(),
         }
